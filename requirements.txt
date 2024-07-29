@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bcrypt
+Flask-Login
+Werkzeug
+SQLAlchemy
+flask-toastr
+pymongo
+python-dotenv

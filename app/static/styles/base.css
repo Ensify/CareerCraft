@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+
+body{
+	font-family: 'Poppins', sans-serif;
+	font-weight: 300;
+	font-size: 15px;
+	line-height: 1.7;
+	overflow-x: hidden;
+    background-color: #152238;
+    /* Dark Blue */
+    color: #fff;
+    /* White text */
+    padding-bottom: 2rem;
+}
+
+.navbar {
+    background-color: #111b2b;
+    /* Darker Blue */
+}
+
+.logo {
+    width: 25%;
+}

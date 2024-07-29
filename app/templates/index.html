@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}CareerCraft{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="mb-4">Welcome to the Career Craft, WIL Platform</h1>
+            <p class="lead">Empowering students to bridge the gap between academia and industry through real-world
+                projects.</p>
+            <a href="{{url_for('auth.authenticate')}}" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="feature-box">
+                <h3>Project Hub</h3>
+                <p>A centralized platform where companies post real-world projects. Sample projects and learning
+                    resources also available.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box">
+                <h3>Personalized Roadmap</h3>
+                <p>An AI-driven assessment system generates personalized learning and implementation roadmaps based on
+                    student skills and interests.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box">
+                <h3>Community Forum</h3>
+                <p>Engage with peers, collaborate on projects, and receive guidance from mentors and industry experts.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluation Section -->
+    <div class="row second-box">
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3>Project Evaluation</h3>
+                <p>A comprehensive evaluation system involving peer assessments and moderator evaluations, fostering a
+                    sense of achievement and healthy competition.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-box">
+                <h3>Leaderboards</h3>
+                <p>Ranking and highlighting students based on project evaluations. Companies organize meetups to discuss
+                    problem statements..</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">Featured Courses</h2>
+        </div>
+        <div class="col-md-4">
+            <div class="course">
+                <h3>Image Recognition System Using TensorFlow</h3>
+                <p>Build an image recognition system using TensorFlow that can classify images into predefined
+                    categories. Train the model using a dataset of your choice and deploy it as a web service using
+                    Flask. Users can upload images through a web interface and receive predictions on their contents.:
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course">
+                <h3> Basic RESTful API for Product Management Using Express.js</h3>
+                <p>Create a basic RESTful API for product management using Express.js, allowing users to perform CRUD
+                    operations on products. Implement endpoints for creating, reading, updating, and deleting products,
+                    along with basic authentication and error handling.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course">
+                <h3>AI-driven Healthcare Diagnosis System</h3>
+                <p>Build an AI-driven healthcare diagnosis system capable of analyzing medical data, symptoms, and
+                    patient history to provide accurate diagnoses and treatment recommendations. Incorporate machine
+                    learning models, natural language processing, and data privacy measures.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
