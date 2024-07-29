@@ -9,3 +9,8 @@ main = Blueprint('main', __name__)
 @main.route("/home")
 def home():
     return render_template('index.html')
+
+@main.route("/landing")
+@login_required
+def landing():
+    return render_template('landing.html')

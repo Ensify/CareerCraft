@@ -9,7 +9,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 toastr = Toastr()
 login_manager = LoginManager()
-login_manager.login_view = 'login'
+login_manager.login_view = 'auth.authenticate'
 login_manager.login_message_category = 'info'
 
 def create_app():
