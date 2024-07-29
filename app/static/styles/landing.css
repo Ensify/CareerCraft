@@ -1,0 +1,109 @@
+.logo{
+    font-size: 16px;
+}
+
+.auth-button{
+    color: #102770 !important;
+    background-color: #ffeba7 !important;
+}
+
+.scrollable-div{    
+    height: 80vh;
+    background-color: #43455c;
+    border-radius: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.filter-container{
+    height: 80vh;
+    background-color: #43455c;
+    border-radius: 15px;
+}
+
+/* .filter-checkbox{
+
+} */
+
+.filter-role-item{
+    font-size: 12px;
+}
+
+.search-box{
+    position: relative;
+}
+
+.filter-submit-btn{
+    /* background-color: aliceblue!important; */
+    border: none;
+    /*border-radius: 25px;
+    margin-left: 5px; */
+    /* position : relative; */
+}
+
+.search{
+    position: absolute;
+    width: 12%;
+    top: 7%;
+    right: 2%;
+}
+
+.filter-textbox{
+    background-color: aliceblue;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+}
+
+.explore-btn{
+    background-color: #102770!important;
+    border: none!important;
+}
+
+.title-bar{
+    background-color: #1f2029;
+    /* box-shadow: 1px 1px 3px 1px rgba(255, 255, 255, 0.496); */
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+::-webkit-scrollbar{
+    width: 5px;
+}
+   
+::-webkit-scrollbar-thumb{
+    background: #ffeba7;
+    height: 20px;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: #102770;
+}
+
+::-webkit-scrollbar-track{
+    margin-right: 30px;
+} 
+
+.card-cont,
+.card {
+    height: 100%;
+}
+
+.filter-submit-btn {
+    background-color: transparent !important;
+}
+
+.filter-submit-btn:hover img {
+    transform: scale(1.1);
+    ;
+}
+
+.skill-sec div{
+    display: inline-block;
+}
+
+.role-sec{
+    display: inline-block;
+}
