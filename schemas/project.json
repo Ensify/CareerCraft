@@ -1,0 +1,18 @@
+{
+    "title": "Real-time Collaboration Tool Using WebSockets",
+    "description": "Develop a real-time collaboration tool using WebSockets, allowing multiple users to edit documents simultaneously. Implement features such as live document updates, user cursors, chat functionality, and version control. Use technologies like Flask for the backend and WebSocket libraries for bidirectional communication.\n\nFeatures:\n\nReal-time Document Editing\nUser Cursors and Presence Indicators\nChat Functionality\nVersion Control and Revision History\nUser Authentication and Permissions\nOutcome:\nBy building this project, you'll gain expertise in WebSocket communication, real-time collaboration, version control systems, and user authentication, while also improving your backend development skills.\n",
+    "skills": [
+        "Python",
+        "Flask",
+        "WebSockets",
+        "Real-time Collaboration",
+        "Version Control",
+        "Web Development"
+    ],
+    "roles": [
+        "Backend Engineer",
+        "Full Stack Web developer",
+        "DevOps Engineer"
+    ],
+    "level": "intermediate"
+}
