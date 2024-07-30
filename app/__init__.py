@@ -23,9 +23,11 @@ def create_app():
 
     from app.routes.auth import auth
     from app.routes.main import main
-
+    from app.routes.activity import activity
+    
     app.register_blueprint(main, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(activity, url_prefix='/')
 
     with app.app_context():
         db.create_all()

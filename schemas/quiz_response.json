@@ -1,7 +1,7 @@
 {
     "_id": "089230123",
     "enrollId": 2,
-    "scores" : [
+    "quizResponses" : [
         {
             "skill": "Python",
             "mark": 5

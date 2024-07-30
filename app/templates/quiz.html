@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Quiz</title>
+</head>
+<body>
+    <h1>Skill Quiz</h1>
+
+    {% if quiz_questions %}
+        <form method="POST">
+            {% for skill in quiz_questions.skills %}
+                <h2>{{ skill.skill }}</h2>
+                <ul>
+                    {% for i in range(skill.questions| length) %}
+               
+                        <li>
+                            <p>{{ skill.questions[i].question }}</p>
+                            {% for answer_choice in skill.questions[i].wrong %}
+                                <label>
+                                    <input type="radio" name="{{ skill.skill }}-{{ i }}" value="{{ answer_choice }}">
+                                    {{ answer_choice }}
+                                </label>
+                            {% endfor %}
+                            <label>
+                                <input type="radio" name="{{ skill.skill }}-{{ i }}" value="{{ skill.questions[i].correct[0] }}">
+                                {{ skill.questions[i].correct[0] }} (Correct)
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+            <button type="submit">Submit Quiz</button>
+        </form>
+    {% else %}
+        <p>No quiz questions found for this project.</p>
+    {% endif %}
+
+</body>
+</html>
