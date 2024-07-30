@@ -3,7 +3,7 @@ from app import db, bcrypt
 from app.models import User
 from app.mongo import MongoHandle
 from flask_login import login_user, current_user, logout_user, login_required
-
+import os
 auth = Blueprint('auth', __name__)
 mongoHandle = MongoHandle()
 
@@ -68,8 +68,36 @@ def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
-@auth.route("/profile")
+@auth.route("/profile" ,methods=['GET', 'POST'])
 @login_required
 def profile():
+    
+    if request.method == 'POST':
+        print("Post bro")
+        linkedin_url = request.form.get('linkedin_link')
+        github_url = request.form.get('github_link')
+        role = request.form.get('role')
+        skills = request.form.getlist('skills[]')
+        print(linkedin_url, github_url, role, skills)
+        modified = mongoHandle.update_user_profile(current_user.id, linkedin_url, github_url, role, skills)
+        if(modified>0):
+            # TODO: Toaster
+            print("User data modified successfully")
+        else:
+            # TODO: Toaster
+            print("Failed to modify user data")
     user = User.query.get(current_user.id)
-    return render_template('profile.html', user=user)
+    user_profile = mongoHandle.get_user_object(current_user.id)
+    print(dict(user_profile))
+    skills_set = []
+    print(os.listdir("data"))
+    with open(os.path.join("data", "skills.txt")) as f:
+        for line in f:
+            skills_set.append(line.strip().capitalize())
+    roles = []
+    with open("data/roles.txt") as f:
+        for line in f:
+            roles.append(line.strip())
+    return render_template('profile.html', user=user_profile, skills_set=skills_set, roles = roles)
+
+
