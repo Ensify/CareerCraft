@@ -7,7 +7,6 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{url_for('static',filename='scripts/profile.js')}}"></script>
 
 <div class="container text-center">
     <div class="row align-items-start">
@@ -48,7 +47,7 @@
                             <span class="progress-right">
                                 <span class="progress-bar"></span>
                             </span>
-                            <div class="progress-value" id="progress-value">90%</div>
+                            <div class="progress-value" id="progress-value"></div>
                         </div>
                     </div>
                     <div class="chart">
@@ -118,5 +117,34 @@
     </div>
 </div>
 
+<script>
+    const user = {
+                username: "{{ user['username'] }}",
+                email: "{{ user['email'] }}",
+                role: "{{ user['role'] }}",
+                github_link: "{{ user['github_link'] }}",
+                linkedin_link: "{{ user['linkedin_link'] }}",
+                skills: `{{ user['skills']}}`
+            };
+            console.log(user);
 
+            function calculateProfileCompletion(user) {
+                const fields = ['username', 'email', 'role', 'github_link', 'linkedin_link', 'skills'];
+                let filledFields = 0;
+
+                fields.forEach(field => {
+                    if (user[field] && user[field].trim() !== '') {
+                        filledFields++;
+                    }
+                });
+
+                const percentage = (filledFields / fields.length) * 100;
+                return percentage.toFixed(2);
+            }
+
+            const completionPercentage = calculateProfileCompletion(user);
+            $('#progress-value').text(Math.round(completionPercentage) + '%');
+
+</script>
+<script src="{{url_for('static',filename='scripts/profile.js')}}"></script>
 {% endblock %}
