@@ -71,4 +71,5 @@ def logout():
 @auth.route("/profile")
 @login_required
 def profile():
-    return render_template('profile.html', title='Account')
+    user = User.query.get(current_user.id)
+    return render_template('profile.html', user=user)
