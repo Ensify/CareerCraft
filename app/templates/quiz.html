@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}CareerCraft{% endblock %} {% block
+styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/quiz.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container mt-3">
+  <ul class="nav nav-tabs" id="sections">
+    <!-- <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#">Section 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Section 2</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Section 3</a>
+    </li> -->
+  </ul>
+</div>
+<div class="container">
+  <div class="questions mt-5" id="question-container">
+  </div>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary" type="button">Next Section</button>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="{{url_for('static',filename='scripts/quiz.js')}}"></script>
+{% endblock %}

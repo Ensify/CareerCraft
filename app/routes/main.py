@@ -14,3 +14,8 @@ def home():
 @login_required
 def landing():
     return render_template('landing.html')
+
+
+@main.route("/quiz")
+def quiz():
+    return render_template('quiz.html')
