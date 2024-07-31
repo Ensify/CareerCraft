@@ -1,284 +1,127 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-actionscript
-ada
-adobe
-agile
-alice
-amazon
-analysis
-angular
-ansible
-apache
-api
-architecture logicielle
-artificial intelligence
-asp.net
-assembly
-aurora
-autocad
-balancing
-bash
-basic
-be
-beego
-bi
-bitbucket
-block
-building
-c
-c#
-c++
-c/c++
-cassandra
-chapel
-cisco
-clojure
-cloud
-cobol
-codeigniter
-coldfusion
-computer vision
-computervision
-computing
-concretecms
-couchdb
-csharpe
-css
-d3.js
-dart
-data
-data science
-database
-db2
-deep learning
-development
-devops
-dhcp
-django
-dns
-docker
-dom
-dylan
-dynamodb
-eiffel
-elm
-embedded
-engine
-entity
-erlang
-euphoria
-express
-express.js
-expressjs
-f#
-fantom
-fastapi
-firebase
-flask
-flutter
-front-end
-gimp
-gin
-git
-github
-gitlab
-go
-google
-gradle
-groovy
-hack
-hadoop
-hana
-haskell
-hbase
-hibernate
-hopscotch
-html
-ia
-iaas
-idl
-illustrator
-in-memory
-indesign
-intelligence artificielle
-interfaces
-intégration continue
-ios
-ios/macos
-iot
-iot.js
-j2ee
-java
-javafx
-javascript
-jboss
-jenkins
-jetty
-jpa
-jquery
-js
-json
-julia
-juniper
-junit
-kanban
-kdb+/q
-kitura
-kotlin
-kubernetes
-labview
-laravel
-linux
-lisp
-load
-logo
-lstm
-lua
-mac
-machine
-machine learning
-manipulation
-mapping
-mariadb
-matlab
-matplotlib
-maven
-mel
-memcached
-metasploit
-microsoft
-mongo db
-mongodb
-mql4/mql5
-mumps
-mysql
-ner
-nest.js
-next.js
-nexus
-nginx
-nim
-nlp
-nmap
-node
-node.js
-nodejs
-numpy
-oberon
-object-relational
-objective-c
-objective-j
-on
-open source
-opencl
-opencv
-oracle
-os
-paas
-pandas
-pascal
-perl
-photoshop
-php
-pl/i
-pl/sql
-postgresql
-postman
-power
-powershell
-prestashop
-prolog
-protocols
-pyramid
-python
-pytorch
-query
-r
-racket
-rails
-rapira
-react
-react js
-react native
-react.js
-reactjs
-realm
-redis
-rethinkdb
-revue de code
-rexx
-rhino
-riak
-rpg
-ruby
-runtime
-rust
-saas
-sap
-sas
-sbl
-scala
-scheme
-scratch
-scripting
-scrum
-seaborn
-selenium
-servlet
-shell
-sinatra
-smalltalk
-smart
-solidity
-solidworks
-spark
-spring
-spring boot
-springboot
-sql
-sqlite
-struts
-swift
-swiftui
-symfony
-system d'exploitation
-systems
-tableau
-tailwind
-tcl
-tcp/ip
-tensorflow
-terraform
-test automatisé
-testng
-tomcat
-turing
-typescript
-ui
-uikit
-uml
-unity
-unix
-unreal
-unrealscript
-used
-user
-vala
-verilog
-vhdl
-visual
-voltdb
-vpn
-vue.js
-web
-win32
-windows
-wireshark
-wolfram
-wordpress
-x86
-xamarin
-xml
-xojo
-xquery
-xsl
+AI Development
+API Integration
+Agricultural Technology
+Algorithmic Trading
+Angular
+Anomaly Detection
+Artificial Intelligence
+Augmented Reality
+Augmented Reality (AR)
+Authentication
+Autonomous Systems
+Backend Development
+Backend Integration
+Big Data Analytics
+Bioinformatics
+Blockchain
+Bootstrap
+CMS Development
+CSS
+Cloud Computing
+Cloud Services
+Cognitive Computing
+Computational Chemistry
+Computer Vision
+Content Management
+Content Sharing
+Conversational AI
+Cryptography
+Customer Service Automation
+Customer Support
+Cybersecurity
+Data Analysis
+Data Analytics
+Database Management
+Deep Learning
+Dialog Management
+Distributed Ledger Technology
+Distributed Systems
+Django
+Django REST Framework
+Drone Technology
+Drug Discovery
+E-commerce
+Educational Technology
+Ethics in AI
+Event Management
+Express.js
+Financial Analysis
+Financial Application
+Firebase
+Flask
+Flask-Login
+Fraud Detection
+GIS Integration
+Game Development
+Gamification
+Gatsby.js
+HTML
+Healthcare Informatics
+Healthcare Technology
+Home Automation
+Incident Response
+Indoor Navigation
+Internet of Things (IoT)
+Inventory Management
+IoT
+IoT Security
+Issue Tracking
+JWT
+Java
+JavaScript
+Job Portal Development
+Machine Learning
+Media Streaming
+Mobile App Development
+Mobile Development
+MongoDB
+Motion Tracking
+Natural Language Processing
+Natural Language Processing (NLP)
+Navigation Systems
+Network Architecture
+Next.js
+Node.js
+Passport.js
+Payment Gateway Integration
+Portfolio Management
+Precision Farming
+Privacy-enhancing Technologies
+Python
+RESTful APIs
+Raspberry Pi
+React.js
+Real-time Collaboration
+Real-time Communication
+Real-time Data Analysis
+Real-time Streaming
+Recommendation Systems
+Remote Sensing
+Robotics
+SEO Optimization
+Scheduling Applications
+Secure Communication
+Secure Computing
+Security
+Security Operations
+Security Protocols
+Security Tools
+Sensor Integration
+Smart Contracts
+Social Media
+Socket.IO
+Spring Boot
+Supply Chain Management
+Task Management
+TensorFlow
+Threat Analysis
+TypeScript
+UI/UX Design
+Unity
+Urban Planning
+User Engagement
+User Experience Design
+Version Control
+Vue.js
+Web Development
+WebSockets
