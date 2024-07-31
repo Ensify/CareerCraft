@@ -4,7 +4,7 @@ from app import db, bcrypt
 from app.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from app.mongo import MongoHandle
-from app.utils import roadmap
+from app.utils import claude
 
 
 activity = Blueprint('activity', __name__)
@@ -42,8 +42,22 @@ def process_quiz(project_id):
     results = request.data.decode("utf-8")
     quiz_responses = json.loads(results)
     print(quiz_responses)
+
     if quiz_responses:
-        #mongo_handle.put_quiz_reponses(current_user.mongo_objectId, project_id, quiz_responses)
+        
+        mongo_handle.put_quiz_reponses(current_user.mongo_objectId, project_id, quiz_responses)
+        description = mongo_handle.get_project_object(project_id)["description"]
+        skillslevels = []
+        for skill in quiz_responses:
+            skillslevels.append((skill["skill"], skill["mark"]))
+
+        roadmap = claude.generate_roadmap(description, skillslevels)
+
+        if roadmap:
+            enroll_object = mongo_handle.is_user_enrolled(current_user.mongo_objectId, project_id)
+            mongo_handle.put_roadmap_object(roadmap, enroll_object["_id"])
+            mongo_handle.set_generated_roadmap(enroll_object)
+
         flash("Quiz submitted successfully!", "success")
                         
     return {"redirect":url_for('activity.learning', project_id=project_id)}

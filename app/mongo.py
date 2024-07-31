@@ -93,7 +93,13 @@ class MongoHandle:
             )
             return True
         return False
-    
+    def set_generated_roadmap(self,enroll_object):
+        self.enroll_collection.update_one(
+            {'_id': enroll_object["_id"]},
+            {'$set': {'generateRoadmap': True}}
+        )
+        return True
+
     def put_roadmap_object(self, roadmap, enroll_id):
         result = self.roadmap_collection.insert_one({
             'enrollId': enroll_id,
@@ -102,16 +108,19 @@ class MongoHandle:
         insert_id = str(result.inserted_id)
         today = int(time.time() * 1000)
         activities = []
-        for i in range(1, len(roadmap)+1):
-            for j in range(1, len(roadmap[i-1]["milestones"])):
-                for k in range(1, len(roadmap[i-1]["milestones"]["tasks"])):
+        intermediate_goals = roadmap["intermediate goals"]
+
+        for goalIdx, goal in enumerate(intermediate_goals):
+            for milestoneIdx, milestone in enumerate(goal["milestones"]):
+                for taskIdx, task in enumerate(milestone["tasks"]):
                     activities.append({
                         "roadmapId": insert_id,
-                        "taskId": str(i)+"-"+str(j)+"-"+str(k),
+                        "taskId": str(goalIdx+1)+"-"+str(milestoneIdx+1)+"-"+str(taskIdx+1),
                         "completion": 0,
                         "dateCreated": today,
                         "dateUpdated": today
                     })
+                    
         self.progress_collection.insert_many(activities)
         return insert_id
     

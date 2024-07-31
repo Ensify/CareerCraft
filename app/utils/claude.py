@@ -51,10 +51,29 @@ class RoadmapClaude:
             except:
                 with open('logs.txt','a') as f:
                     f.write("--------\n"+content +"\n")
-        
+                raise Exception("JSON ERROR")
         print(message)
         raise Exception("JSON ERROR")
     
     def __call__(self, project, skillslevels):
         content = self.get_message(project, skillslevels)
         return content
+    
+def generate_roadmap(description, skillslevels):
+    with open('roadmap.json','r') as f:
+        roadmap = json.load(f)
+    return roadmap
+    print(description)
+    print(skillslevels)
+    try:
+        model = RoadmapClaude()
+        roadmap = model(description, skillslevels)
+
+        #save roadmap in json
+        with open('roadmap.json','w') as f:
+            json.dump(roadmap, f, indent=4)
+    except Exception as e:
+        print(e)
+        return None
+
+    return roadmap
