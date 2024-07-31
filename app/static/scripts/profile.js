@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
   const ctx = document.getElementById("myChart");
   const data = {
@@ -31,29 +32,29 @@ $(document).ready(function () {
   });
 
   $("#profile-completion").mouseleave(function () {
-    $("#progress-value").text("50%");
+    $('#progress-value').text(Math.round(completionPercentage) + '%');
   });
 
   $("#profile-completion").click(function () {
-    $('#staticBackdrop').modal('show');
+    $("#staticBackdrop").modal("show");
   });
 
-  function formatState (state) {
+  function formatState(state) {
     if (!state.id) {
       return state.text;
     }
     var $state = $(
-      '<span class="text-dark text-start">' + state.text + '</span>'
+      '<span class="text-dark text-start">' + state.text + "</span>"
     );
     return $state;
-  };
+  }
 
-  $('#staticBackdrop').on('shown.bs.modal', function () {
-    $('.js-example-basic-multiple').select2({
+  $("#staticBackdrop").on("shown.bs.modal", function () {
+    $(".js-example-basic-multiple").select2({
       placeholder: "Select your skills",
-      dropdownParent: $('#staticBackdrop'),
+      dropdownParent: $("#staticBackdrop"),
       templateResult: formatState,
-      templateSelection: formatState
+      templateSelection: formatState,
     });
   });
 
@@ -107,4 +108,14 @@ $(document).ready(function () {
   }
 
   streakTracker.html(htmlContent);
+
+  const userDetails = {
+    username: `{{ user["username"] }}`,
+    email: "{{ user['email'] }}",
+    role: "{{ user['role'] }}",
+    github_link: "{{ user['github_link'] }}",
+    linkedin_link: "{{ user['linkedin_link'] }}",
+  };
+
+  console.log(`{{ user["email"] }}`);
 });

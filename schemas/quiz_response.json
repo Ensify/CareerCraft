@@ -1,0 +1,22 @@
+{
+    "_id": "089230123",
+    "enrollId": 2,
+    "quizResponses" : [
+        {
+            "skill": "Python",
+            "mark": 5
+        },
+        {
+            "skill": "FLask",
+            "mark": 3
+        },
+        {
+            "skill": "React",
+            "mark": 1
+        },
+        {
+            "skill": "ML",
+            "mark": 5
+        }
+    ]
+}

@@ -1,4 +1,3 @@
-from datetime import datetime
 from app import db, login_manager
 from flask_login import UserMixin
 
@@ -15,3 +14,4 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.mongo_objectId}')"
+

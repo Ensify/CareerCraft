@@ -1,0 +1,9 @@
+{
+    "_id": 7,
+    "email": "rajasree@example.com",
+    "username": "raj",
+    "github": "https://github.com/rajasree",
+    "linkedin": "https://www.linkedin.com/in/rajasree",
+    "role": "Graphic Design",
+    "skills": ["Adobe Photoshop", "Adobe Illustrator", "Figma"]
+}
