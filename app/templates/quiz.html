@@ -4,10 +4,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/quiz.css') }}" />
 {% endblock %}
 {% block content %}
-<div class="quiz-container">
+<div class="quiz-container ps-5">
     <div id="quiz-container"></div>
-    <button id="next-button" onclick="nextSection()">Next</button>
-    <button id="submit-button" onclick="submitQuiz()" style="display: none;">Submit</button>
+    <div class="buttons d-flex flex-end px-5">
+    <button id="next-button" class="btn btn-info fw-bold ms-auto d-flex align-items-center justify-content-between" onclick="nextSection()">
+      <p class="mb-0">Next</p>
+      <img src="{{url_for('static',filename='assets/right-arrow.png')}}" alt="" class="arrow">
+    </button>
+    <button id="submit-button" class="btn btn-info fw-bold ms-auto d-flex align-items-center justify-content-between" onclick="submitQuiz()">
+      <p class="mb-0">Submit</p>
+    </button>
+  </div>
 </div>
 {% endblock %}
 
@@ -34,24 +41,27 @@ function loadSection() {
         const skill = skills[currentSectionIndex];
         const questions = shuffle(skill.questions);
         const quizContainer = document.getElementById('quiz-container');
-        quizContainer.innerHTML = `<h2>${skill.skill}</h2>`;
+        quizContainer.innerHTML = `<h2 class="section">${skill.skill}</h2><hr class="divider"/>`;
         questions.forEach((q, index) => {
             const allAnswers = shuffle([...q.correct, ...q.wrong]);
             quizContainer.innerHTML += `
                 <div class="question">
-                    <p>${q.question}</p>
+                    <p class='quest'><strong>${index+1}.</strong> ${q.question}</p>
+                    <div class="options row">
                     ${allAnswers.map((answer, i) => `
-                        <label>
-                            <input type="radio" name="q${index}" value="${answer}">
+                        <label class="col-6 mt-3 d-flex align-items-center gap-3">
+                            <input type="radio" name="q${index}" value="${answer}" class='large-radio-button'>
                             ${answer}
                         </label>
                     `).join('')}
+                    <div class="question">
                 </div>
             `;
         });
     } else {
-        document.getElementById('next-button').style.display = 'none';
-        document.getElementById('submit-button').style.display = 'block';
+        document.getElementById('next-button').classList.add('hidden');
+        document.getElementById('submit-button').classList.remove('hidden');
+        document.getElementById('submit-button').classList.add('visible');
     }
 }
 
@@ -67,6 +77,13 @@ function nextSection() {
     currentSectionIndex++;
     loadSection();
 }
+
+document.getElementById('next-button').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // for smooth scrolling
+            });
+    });
 
 function computeMarks() {
     const marks = [];
@@ -106,7 +123,7 @@ function submitQuiz() {
         console.error('Error:', error);
     });
 }
-
+document.getElementById('submit-button').classList.add('hidden');
 loadSection();
 
 </script>
