@@ -7,32 +7,90 @@
 
 <div class="title-desc">
     <div class="text">
-        <h1 class="mb-3">{{project.title}} - {{project.level}}</h1>
-        <p class="desc">{{project.description[12:]}}</p>
-        {% if not enrolled%}
+
+        <div class="d-flex justify-content-center flex-row title-flex align-items-center">
+            <div>
+                <h1 class="w-75  mb-3">{{project.title}}</h1>
+                {% if not enrolled%}
+                        <button  type="button" class="mt-4 btn btn-primary enroll-btn" data-bs-toggle="modal" data-bs-target="#enrollModal">
+                            Start project 
+                        </button>
+                        {% else %}
+                        <a href="{{url_for('activity.learning',project_id=project.projectId)}}" class="btn"
+                            style="background-color: #ffeba7;">Go to Project</a>
+                        {% endif %}
+            </div>
+            <div class="cardFlex  d-flex flex-column">
+                <div>
+                    <p class="sub-head">Guided Project</p>
+                    <p  class=" mt-0 sub-text">Learn, practice, and apply job-ready skills with expert guidance</p>
+                    <hr class="slim-line">
+                </div>
+                <div>
+                    <p class=" mt-0 sub-head">{{project.level}} Level</p>
+                </div>
+                <div>
+                    <p class="sub-head">5+ hours</p>
+                </div>
+                <div>
+                    <p class="sub-head">No downloads or installation required</p>
+                    <p class="sub-text">Only available on desktop</p>
+                </div>
+                <div>
+                    <p class="sub-head">Hands-on learning</p>
+                    <hr class="slim-line">
+                </div>
+                <div>
+                    <a class="sub-text-link" href="www.google.com">More about the Course</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class=" align-items-center desc-container">
+            <p class="desc">{{project.description[12:]}}</p>
+            <img class="course-img" src="{{url_for('static',filename='assets/course_img.jpg')}}" alt="course-pic">
+        </div> -->
+        
+        
+        <!-- {% if not enrolled%}
         <button type="button" class="btn btn-primary enroll-btn" data-bs-toggle="modal" data-bs-target="#enrollModal">
             Enroll me
         </button>
         {% else %}
         <a href="{{url_for('activity.learning',project_id=project.projectId)}}" class="btn"
             style="background-color: #ffeba7;">Go to Project</a>
-        {% endif %}
+        {% endif %} -->
     </div>
-    <div class="img">
+    <!-- <div class="img">
         <img src="{{url_for('static',filename='images/ai.png')}}" alt="" class="project-img">
+    </div> -->
+</div>
+<div class="skills-container">
+    <div class="rem">
+        <div>
+            <h3 class="mb-4">Skills To master</h3>
+            <div class="">
+                {% for skill in project.skills%}
+                <span class="skill me-2">{{skill}}</span>
+                {% endfor %}
+    
+            </div>
+        </div>
+        <div>
+            <h3 class=" mt-5 mb-4">Roles</h3>
+            <div class="">
+                {% for role in project.roles%}
+            
+                <span class=" skill me-2">{{role}}</span> {% endfor %}
+            </div>
+        </div>
+        
+    
+    
+    
     </div>
 </div>
-<div class="rem">
-    <h3 class="mb-3">Skills To master</h3>
-    {% for skill in project.skills%}
-    <span class="skill me-2">{{skill}}</span>
-    {% endfor %}
-    <br />
-    <h3 class="mt-5">Roles</h3>
-    {% for role in project.roles%}
-    <span class="skill me-2">{{role}}</span> {% endfor %}
 
-</div>
 
 <div class="modal fade" id="enrollModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="enrollModalLabel" aria-hidden="true">

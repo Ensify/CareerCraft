@@ -4,6 +4,7 @@ from app.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from app.mongo import MongoHandle
 import time
+import os
 
 
 main = Blueprint('main', __name__)
@@ -18,7 +19,16 @@ def home():
 @login_required
 def landing():
     projects = mongo_handle.get_all_projects()
-    return render_template('landing.html', projects=projects)
+    skills_set = []
+    print(os.listdir("data"))
+    with open(os.path.join("data", "skills.txt")) as f:
+        for line in f:
+            skills_set.append(line.strip().capitalize())
+    roles = []
+    with open("data/roles.txt") as f:
+        for line in f:
+            roles.append(line.strip())
+    return render_template('landing.html', projects=projects, skills=skills_set, roles=roles)
 
 @main.route("/project/<int:id>")
 @login_required

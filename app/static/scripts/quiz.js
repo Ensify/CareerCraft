@@ -1,4 +1,5 @@
 let sectionIndex = 0;
+let score = 0;
 const data = {
   skills: [
     {
@@ -240,78 +241,145 @@ const data = {
   ],
 };
 
-$(document).ready(function () {
-  let sections = "";
-  data.skills.forEach((skill, skillIndex) => {
-    if (skillIndex == 0) {
-      sections +=
-        "<li class='nav-item'><a class='nav-link active ' aria-current='page' href='#''>" +
-        skill.skill +
-        "</a></li>";
-    } else {
-      sections +=
-        "<li class='nav-item'><a class='nav-link' aria-current='page' href='#''>" +
-        skill.skill +
-        "</a></li>";
-    }
-  });
+// $(document).ready(function () {
+//   let sections = "";
+//   data.skills.forEach((skill, skillIndex) => {
+//     sections += `<li class='nav-item'><a class='nav-link${
+//       skillIndex === 0 ? " active" : ""
+//     }' data-skill-index='${skillIndex}' aria-current='page' href='#'>${
+//       skill.skill
+//     }</a></li>`;
+//   });
+//   $("#sections").append(sections);
 
-  $("#sections").append(sections);
+//   $(".nav-link").on("click", function (event) {
+//     $(".nav-link").each(function (index, element) {
+//       $(element).removeClass("active");
+//     });
+//     $(this).addClass("active");
+//     sectionIndex = $(this).data("skill-index");
+//     displayQuestions(sectionIndex);
+//   });
 
-  $(".nav-link").on("click", function (event) {
-    $(".nav-link").each(function (index, element) {
-      $(element).removeClass("active");
-    });
-    $(this).addClass("active");
-    const skillIndex = $(this).data("skill-index");
-    displayQuestions(sectionIndex++);
-  });
+//   $("#next-section").on("click", function (event) {
+//     updateScore();
+//     sectionIndex++;
+//     if (sectionIndex < data.skills.length) {
+//       $(".nav-link").removeClass("active");
+//       $(".nav-link[data-skill-index='" + sectionIndex + "']").addClass(
+//         "active"
+//       );
+//       displayQuestions(sectionIndex);
+//     } else {
+//       alert("Quiz Completed! Your score is: " + score);
+//     }
+//   });
 
-  displayQuestions(sectionIndex++);
+//   displayQuestions(sectionIndex);
+// });
 
-  $(".option").click(function () {
-    console.log("clicked");
-    $(this).css("border-color", "#FDBA04");
-    $(this).css("box-shadow", "0 0 5px 2px #FDBA04");
-  });
-});
+// function displayQuestions(skillIndex) {
+//   const questionsContainer = $("#question-container");
+//   questionsContainer.empty();
+//   const skill = data.skills[skillIndex];
 
-function displayQuestions(skillIndex) {
-  const questionsContainer = $("#question-container");
-  questionsContainer.empty();
-  const skill = data.skills[skillIndex];
+//   skill.questions.forEach((q, qIndex) => {
+//     let questionHtml = `<div class="mt-3"><h4>${qIndex + 1}. ${
+//       q.question
+//     }</h4><div class="container my-5"><div class="options row" data-question-index="${qIndex}"><div class="row justify-content-evenly mb-5">`;
+//     let options = q.correct.concat(q.wrong);
+//     shuffle(options);
 
-  skill.questions.forEach((q, qIndex) => {
-    let questionHtml = `<div class="mt-3"><h4>${qIndex + 1}. ${
-      q.question
-    }</h4><div class="container my-5"><div class="options row"><div class="row justify-content-evenly mb-5">`;
-    let options = q.correct.concat(q.wrong);
-    shuffle(options);
+//     options.forEach((option, optionIndex) => {
+//       questionHtml += `<div class="option col-4" data-correct="${q.correct.includes(
+//         option
+//       )}" data-question-index="${qIndex}">${option}</div>`;
+//       if (optionIndex == 1) {
+//         questionHtml += '</div><div class="row justify-content-evenly">';
+//       }
+//     });
+//     questionHtml += "</div></div></div></div>";
+//     questionsContainer.append(questionHtml);
+//   });
 
-    options.forEach((option, optionIndex) => {
-      questionHtml += `<div class="option col-4">${option}</div>`;
-      if (optionIndex == 1) {
-        questionHtml += '</div><div class="row justify-content-evenly">';
-      }
-    });
-    questionHtml += "</div></div></div></div>";
-    questionsContainer.append(questionHtml);
-  });
-}
+//   $(".option").on("click", function () {
+//     const questionIndex = $(this).data("question-index");
+//     $(`.option[data-question-index='${questionIndex}']`)
+//       .removeClass("selected")
+//       .css({
+//         "border-color": "",
+//         "box-shadow": "",
+//       });
+//     if (!$(this).hasClass("selected")) {
+//       $(this).addClass("selected").css({
+//         "border-color": "#FDBA04",
+//         "box-shadow": "0 0 5px 2px #FDBA04",
+//       });
+//     }
+//   });
+// }
+// function displayQuestions(skillIndex) {
+//   const questionsContainer = $("#question-container");
+//   questionsContainer.empty();
+//   const skill = data.skills[skillIndex];
 
-function shuffle(array) {
-  let currentIndex = array.length;
+//   skill.questions.forEach((q, qIndex) => {
+//     let questionHtml = `<div class="mt-3"><h4>${qIndex + 1}. ${
+//       q.question
+//     }</h4><div class="container my-5"><div class="options row"><div class="row justify-content-evenly mb-5">`;
+//     let options = q.correct.concat(q.wrong);
+//     shuffle(options);
 
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+//     options.forEach((option, optionIndex) => {
+//       questionHtml += `<div class="option col-4" data-correct="${q.correct.includes(
+//         option
+//       )}">${option}</div>`;
+//       if (optionIndex == 1) {
+//         questionHtml += '</div><div class="row justify-content-evenly">';
+//       }
+//     });
+//     questionHtml += "</div></div></div></div>";
+//     questionsContainer.append(questionHtml);
+//   });
 
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-}
+//   $(".option").on("click", function () {
+//     const selectedOption = $(this).siblings(".selected");
+//     if (selectedOption.length && selectedOption[0] === this) {
+//       $(this).removeClass("selected").css({
+//         "border-color": "",
+//         "box-shadow": "",
+//       });
+//     } else {
+//       $(this).siblings().removeClass("selected").css({
+//         "border-color": "",
+//         "box-shadow": "",
+//       });
+//       $(this).addClass("selected").css({
+//         "border-color": "#FDBA04",
+//         "box-shadow": "0 0 5px 2px #FDBA04",
+//       });
+//     }
+//   });
+// }
+
+// function shuffle(array) {
+//   let currentIndex = array.length;
+
+//   while (currentIndex != 0) {
+//     let randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex--;
+//     [array[currentIndex], array[randomIndex]] = [
+//       array[randomIndex],
+//       array[currentIndex],
+//     ];
+//   }
+// }
+
+// function updateScore() {
+//   const selectedOptions = $(".selected");
+//   selectedOptions.each(function () {
+//     if ($(this).data("correct") === true) {
+//       score++;
+//     }
+//   });
+// }
