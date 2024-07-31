@@ -33,6 +33,8 @@ button {
 
 .quest{
   font-size: 1.3rem;
+  color : #1CE7B2;
+  font-style: italic;
 }
 
 #next-button{
