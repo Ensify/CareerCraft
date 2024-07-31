@@ -1,0 +1,51 @@
+body {
+    background-color: #181625;
+    color: #fff;
+}
+
+.title-desc {
+    background-color: #252641;
+    padding: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rem {
+    padding: 2%;
+}
+
+.text {
+    width: 130%;
+}
+
+.desc {
+    text-align: justify;
+}
+
+.project-img {
+    width: 70%;
+}
+
+.img {
+    text-align: center;
+}
+
+.skill {
+    background-color: #333EB9;
+    background-image: linear-gradient(to right, #225FBA, #431FB5);
+    border-radius: 10px;
+    padding: 8px 15px;
+    color: black;
+    font-weight: bold;
+    color: #fff;
+}
+
+.enroll-btn {
+    background-color: #431FB5;
+    border: none;
+}
+
+.modal-text {
+    color: #181625;
+}

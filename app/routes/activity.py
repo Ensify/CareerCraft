@@ -12,9 +12,9 @@ mongo_handle = MongoHandle()
 
 @activity.route("/learning/<int:project_id>")
 def learning(project_id):
-    roadmap_object = roadmap.get_roadmap(project_id, current_user.id)
+    roadmap_object = roadmap.get_roadmap(project_id, current_user.mongo_objectId)
     if not roadmap_object:
-        # TODO: Make a toaster saying user not enrolled.
+        flash("User not enrolled in this course. Please report if you think this is a mistake.","error")
         return redirect(url_for('main.landing'))
     return render_template('learning.html', roadmap=roadmap_object, project_id=project_id)
 

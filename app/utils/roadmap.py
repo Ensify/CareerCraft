@@ -160,7 +160,7 @@ def get_roadmap(project_id, user_id):
     enroll_object = mongo_handle.is_user_enrolled(user_id, project_id)
     print(enroll_object)
     if enroll_object and enroll_object["generateRoadmap"]:
-        roadmap_data = mongo_handle.get_roadmap_data(enroll_object["_id"])
+        roadmap_data = mongo_handle.get_roadmap_object(enroll_object["_id"])
         
     elif enroll_object:
         model = RoadmapClaude()
@@ -182,4 +182,5 @@ def get_roadmap(project_id, user_id):
         
     else:
         return False
+    
     return roadmap_data

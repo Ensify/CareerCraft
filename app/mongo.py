@@ -115,6 +115,12 @@ class MongoHandle:
         self.progress_collection.insert_many(activities)
         return insert_id
     
+    def get_roadmap_object(self, enroll_id):
+        roadmap = self.roadmap_collection.find_one({'enrollId': enroll_id})
+        if roadmap:
+            return roadmap['roadmap']
+        return None
+    
     def get_user_projects(self, user_id):
         result = self.enroll_collection.find({'userId': user_id})
 

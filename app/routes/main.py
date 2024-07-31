@@ -24,7 +24,7 @@ def landing():
 @login_required
 def get_project_details(id):
     current_project = mongo_handle.get_project_object(id)
-    is_enrolled = mongo_handle.is_user_enrolled(current_user.id, id)
+    is_enrolled = mongo_handle.is_user_enrolled(current_user.mongo_objectId, id)
     return render_template('project.html', project=current_project, enrolled=is_enrolled is not None)
 
 @main.route("/enroll", methods=["POST"])
@@ -36,7 +36,7 @@ def enroll():
     date_object = int(time.time() * 1000)
     # formatted_date = date_object.strftime("%d/%m/%Y")
     enroll_data = {
-        "userId": current_user.id,
+        "userId": current_user.mongo_objectId,
         "projectId": project_id,
         "dateEnrolled": date_object,
         "generateRoadmap": False
