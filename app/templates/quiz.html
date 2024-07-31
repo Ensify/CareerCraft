@@ -4,9 +4,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/quiz.css') }}" />
 {% endblock %}
 {% block content %}
-<div id="quiz-container"></div>
-<button id="next-button" onclick="nextSection()">Next</button>
-<button id="submit-button" onclick="submitQuiz()" style="display: none;">Submit</button>
+<div class="quiz-container">
+    <div id="quiz-container"></div>
+    <button id="next-button" onclick="nextSection()">Next</button>
+    <button id="submit-button" onclick="submitQuiz()" style="display: none;">Submit</button>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -84,8 +86,10 @@ function submitQuiz() {
     const marks = computeMarks();
     console.log(marks); // For testing purposes
 
+    const endpoint = `{{ url_for("activity.process_quiz", project_id = project_id)}}`
+
     // Send AJAX request
-    fetch('your-server-endpoint', {
+    fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -94,9 +98,11 @@ function submitQuiz() {
     })
     .then(response => response.json())
     .then(data => {
+        window.location.href = data.redirect;
         console.log('Success:', data);
     })
     .catch((error) => {
+        window.location.href = `{{ url_for("activity.learning", project_id = project_id) }}`;
         console.error('Error:', error);
     });
 }

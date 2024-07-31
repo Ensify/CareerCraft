@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, render_template, url_for, flash, redirect, request
 from app import db, bcrypt
 from app.models import User
@@ -27,6 +28,9 @@ def learning(project_id):
 @activity.route("/quiz/<int:project_id>", methods=["GET"])
 @login_required
 def quiz(project_id):
+    #Validate Quiz
+    #TODO: Check if user is enrolled in project and not already taken quiz and exit route
+
     quiz_questions = mongo_handle.get_quiz_object(project_id)["skills"]
     return render_template('quiz.html', data=quiz_questions, project_id = project_id)
 
@@ -35,15 +39,14 @@ def quiz(project_id):
 @login_required
 def process_quiz(project_id):
 
-    print(request.data)
-
-    # if request.method == "POST":
-    #     quiz_responses = request.form.get('quizResponses')
-    #     if quiz_responses is not None:
-    #         mongo_handle.put_quiz_reponses(current_user.id, project_id, quiz_responses)
-    #         flash("Quiz submitted successfully!", "success")
+    results = request.data.decode("utf-8")
+    quiz_responses = json.loads(results)
+    print(quiz_responses)
+    if quiz_responses:
+        #mongo_handle.put_quiz_reponses(current_user.mongo_objectId, project_id, quiz_responses)
+        flash("Quiz submitted successfully!", "success")
                         
-    return redirect(url_for('activity.learning', project_id=project_id))
+    return {"redirect":url_for('activity.learning', project_id=project_id)}
 
 
 
