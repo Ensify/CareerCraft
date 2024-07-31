@@ -3,7 +3,7 @@ from app import db, bcrypt
 from app.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 from app.mongo import MongoHandle
-from ..utils import roadmap
+from app.utils import roadmap
 
 
 activity = Blueprint('activity', __name__)
@@ -12,11 +12,16 @@ mongo_handle = MongoHandle()
 
 @activity.route("/learning/<int:project_id>")
 def learning(project_id):
-    roadmap_object = roadmap.get_roadmap(project_id, current_user.mongo_objectId)
-    if not roadmap_object:
+
+    enroll_object = mongo_handle.is_user_enrolled(current_user.mongo_objectId, project_id)
+
+    if not enroll_object:
         flash("User not enrolled in this course. Please report if you think this is a mistake.","error")
         return redirect(url_for('main.landing'))
-    return render_template('learning.html', roadmap=roadmap_object, project_id=project_id)
+    
+    roadmap_object = mongo_handle.get_roadmap_object(enroll_object)
+
+    return render_template('learning.html', roadmap_object = roadmap_object, project_id = project_id)
 
 
 @activity.route("/quiz/<int:project_id>", methods=["GET"])

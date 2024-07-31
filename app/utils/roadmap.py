@@ -155,16 +155,14 @@ def generate_roadmap(project, quizzes):
 
 
 
-def get_roadmap(project_id, user_id):
-
-    enroll_object = mongo_handle.is_user_enrolled(user_id, project_id)
-    print(enroll_object)
-    if enroll_object and enroll_object["generateRoadmap"]:
+def get_roadmap(enroll_object):
+    
+    if enroll_object["generateRoadmap"]:
         roadmap_data = mongo_handle.get_roadmap_object(enroll_object["_id"])
         
-    elif enroll_object:
+    else:
         model = RoadmapClaude()
-        project_object = mongo_handle.get_project_object(project_id)
+        project_object = mongo_handle.get_project_object(enroll_object["projectId"])
         description = project_object["description"]
         skill_marks = mongo_handle.get_quiz_responses(enroll_id=enroll_object["_id"])
         
@@ -178,9 +176,6 @@ def get_roadmap(project_id, user_id):
         
         if roadmap_data:
             mongo_handle.put_roadmap_object(enroll_object["_id"], roadmap_data)
-        mongo_handle.update_enroll_object(project_id, user_id)
-        
-    else:
-        return False
+            mongo_handle.update_enroll_object(project_id, user_id)
     
     return roadmap_data

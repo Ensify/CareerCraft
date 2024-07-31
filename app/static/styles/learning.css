@@ -91,3 +91,31 @@ ul {
 .goal.active .milestone {
     animation: fadeIn 0.5s ease-in-out;
 }
+
+.road{
+    width: 0%;
+    border : 5px dashed #fff;
+    /* background-color: black; */
+    position: relative;
+    left: 3%;
+    z-index: -1;
+    border-right: none;
+    border-spacing: 10px;
+    padding : 5% 0;
+}
+
+.mile-img{
+    width: 5%;
+}
+
+.mile-content{
+    position: relative;
+    z-index: 1;
+}
+.milestone{
+    padding-left: 10%;
+}
+
+.pad-content{
+    margin : -2% 0;
+}

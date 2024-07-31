@@ -4,35 +4,6 @@
 {% endblock %}
 {% block content %}
 
-<style>
-    .road{
-        width: 0%;
-        border : 5px dashed #fff;
-        /* background-color: black; */
-        position: relative;
-        left: 3%;
-        z-index: -1;
-        border-right: none;
-        border-spacing: 10px;
-        padding : 5% 0;
-    }
-
-    .mile-img{
-        width: 5%;
-    }
-
-    .mile-content{
-        position: relative;
-        z-index: 1;
-    }
-    .milestone{
-        padding-left: 10%;
-    }
-
-    .pad-content{
-        margin : -2% 0;
-    }
-</style>
 
 <div class="container">
     <div class="row mt-3">
@@ -40,11 +11,44 @@
             CareerCraft
         </div>
         <div class="col-4 text-end">
-            <button class="btn auth-button" >
+            <button class="btn auth-button">
                 Leaderboard
             </button>
         </div>
     </div>
+    {% if roadmap_object %}
+    <div class="container mt-5 roadmap-container">
+        <div class="d-flex mile-content pt-3 pb-3">
+            <div class="road"></div>
+            <div class="pad-content">
+
+                {% for goal in roadmap%}
+                    <div class="goal ms-2 me-2 mb-5">
+                        <div class="d-flex align-items-center">
+                            <img src="{{url_for('static',filename='images/goals.png')}}" alt="" class="mile-img me-3">
+                            <h2>{{ goal.title }}</h2>
+                        </div>
+                        {% for milestone in goal.milestones %}
+                            <div class="milestone mt-2">
+                                <h3>{{ milestone.title }}</h3>
+                                <div class="task">
+                                    <ul>
+                                        {% for task in milestone.tasks %}
+                                            <li>
+                                                <h4><strong>-></strong> {{ task.task }}</h4>
+                                                <p>{{ task.description }}</p>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
     <div class="container mt-5">
         <div class="row quiz-panel">
             <div class="text-center align-self-center">
@@ -52,48 +56,19 @@
             </div>
         </div>
     </div>
-    <div class="container mt-5 roadmap-container">
-        <div class="d-flex mile-content pt-3 pb-3">
-                <div class="road"></div>
-        <div class="pad-content">
+    {% endif %}
     
-        {% for goal in roadmap%}
-        <div class="goal ms-2 me-2 mb-5">
-            <div class="d-flex align-items-center">
-            <img src="{{url_for('static',filename='images/goals.png')}}" alt="" class="mile-img me-3">
-            <h2>{{ goal.title }}</h2>
-        </div>
-            {% for milestone in goal.milestones %}
-            <div class="milestone mt-2">
-                <h3>{{ milestone.title }}</h3>
-                <div class="task">
-                    <ul>
-                        {% for task in milestone.tasks %}
-                        <li>
-                            <h4><strong>-></strong> {{ task.task }}</h4>
-                            <p>{{ task.description }}</p>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
-        </div>
-    </div>
 
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const goals = document.querySelectorAll('.goal');
+    document.addEventListener('DOMContentLoaded', function () {
+        const goals = document.querySelectorAll('.goal');
 
-    goals.forEach(function(goal) {
-        goal.querySelector('h2').addEventListener('click', function() {
-            goal.classList.toggle('active');
+        goals.forEach(function (goal) {
+            goal.querySelector('h2').addEventListener('click', function () {
+                goal.classList.toggle('active');
+            });
         });
     });
-});
 </script>
 {% endblock %}
