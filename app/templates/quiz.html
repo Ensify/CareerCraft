@@ -4,52 +4,104 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/quiz.css') }}" />
 {% endblock %}
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<div class="container mt-4">
-    {% for skill in data.skills %}
-        {% for question in skill.questions %}
-            <div class="question mb-5">
-                <p><strong>{{ question.question }}</strong></p>
-                {% for option in question.correct + question.wrong %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ skill.skill }}-{{ question }}" value="{{ option }}" id="{{ skill.skill }}-{{ loop.index }}">
-                        <label class="form-check-label" for="{{ skill.skill }}-{{ loop.index }}-{{ loop.index0 }}">
-                            {{ option }}
-                        </label>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    {% endfor %}
-    <button type="button" class="btn btn-success" id="submit-btn">Submit</button>
-</div>
+<div id="quiz-container"></div>
+<button id="next-button" onclick="nextSection()">Next</button>
+<button id="submit-button" onclick="submitQuiz()" style="display: none;">Submit</button>
+{% endblock %}
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% block scripts %}
 <script>
-    $('#submit-btn').click(() => {
-        const selectedOptions = document.querySelectorAll('input[type="radio"]:checked');
-        let answers = {};
-        selectedOptions.forEach((option, ind) => {
-            console.log(option.id);
-            answers[ind] = option.value;
-        });
+    const quizData = JSON.parse('{{data|tojson}}');
+    console.log(quizData);
 
-        $.ajax({
-            url: `{{ url_for('activity.process_quiz', project_id = project_id) }}`, // Ensure project_id is defined and passed correctly
-            type: 'POST', // Assuming you are sending data to the server
-            contentType: 'application/json', // Indicate the type of data being sent
-            data: JSON.stringify(answers), // Convert answers object to JSON string
-            dataType: 'json', // Expected data type from the server
-            success: function(data) {
-                console.log('Success:', data);
-                // Handle success scenario
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error:', textStatus, errorThrown);
-                // Handle error scenario
-            }
+    
+let currentSectionIndex = 0;
+let userAnswers = {};
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function loadSection() {
+    const skills = quizData;
+    if (currentSectionIndex < skills.length) {
+        const skill = skills[currentSectionIndex];
+        const questions = shuffle(skill.questions);
+        const quizContainer = document.getElementById('quiz-container');
+        quizContainer.innerHTML = `<h2>${skill.skill}</h2>`;
+        questions.forEach((q, index) => {
+            const allAnswers = shuffle([...q.correct, ...q.wrong]);
+            quizContainer.innerHTML += `
+                <div class="question">
+                    <p>${q.question}</p>
+                    ${allAnswers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index}" value="${answer}">
+                            ${answer}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
         });
+    } else {
+        document.getElementById('next-button').style.display = 'none';
+        document.getElementById('submit-button').style.display = 'block';
+    }
+}
+
+function nextSection() {
+    const skills = quizData;
+    const skill = skills[currentSectionIndex];
+    const questions = skill.questions;
+    userAnswers[skill.skill] = [];
+    questions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        userAnswers[skill.skill].push(selected ? selected.value : null);
     });
+    currentSectionIndex++;
+    loadSection();
+}
+
+function computeMarks() {
+    const marks = [];
+    quizData.forEach(skill => {
+        const questions = skill.questions;
+        const answers = userAnswers[skill.skill];
+        let score = 0;
+        questions.forEach((q, index) => {
+            if (answers[index] && q.correct.includes(answers[index])) score++;
+        });
+        marks.push({ skill: skill.skill, mark: score });
+    });
+    return marks;
+}
+
+function submitQuiz() {
+    const marks = computeMarks();
+    console.log(marks); // For testing purposes
+
+    // Send AJAX request
+    fetch('your-server-endpoint', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(marks)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+loadSection();
+
 </script>
 {% endblock %}

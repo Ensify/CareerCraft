@@ -119,22 +119,4 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document
-        .getElementById("startWorking")
-        .addEventListener("click", function () {
-            fetch("/work", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ projectId: project.id }),
-            })
-                .then((response) => {
-                    console.log("Response received.");
-                })
-                .catch((error) => console.error("Error:", error));
-        });
-</script>
-
 {% endblock %}

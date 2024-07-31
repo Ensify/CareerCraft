@@ -129,3 +129,7 @@ class MongoHandle:
         user_obj = self.get_user_object(user_id)
         result = self.user_collection.update_one(filter={'_id': user_obj["_id"]}, update={'$set': {'linkedin': linkedin, 'github': github, 'role':role, 'skills': skills}})
         return result.modified_count
+    
+    def get_project_enrollments(self, project_id):
+        enrollments = self.enroll_collection.find({'projectId': project_id})
+        return [enroll for enroll in enrollments]
