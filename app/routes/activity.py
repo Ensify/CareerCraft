@@ -25,7 +25,9 @@ def learning(project_id):
 
     roadmap = roadmap_object["roadmap"]
     if roadmap:
-        roadmap = roadmap.get("intermediate goals")    
+        roadmap = roadmap.get("intermediate goals")
+
+    print(roadmap_object)
 
     return render_template('learning.html', roadmap_object = roadmap, project_id = project_id, progress_data = progress_data)
 
