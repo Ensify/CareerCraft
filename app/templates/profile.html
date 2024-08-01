@@ -1,42 +1,44 @@
-{% extends "base.html" %}
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
-{% endblock %}
-{% block title %}Profile{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}" />
+{% endblock %} {% block title %}Profile{% endblock %} {% block content %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='scripts/profile.js') }}"></script>
 
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col-4 vh-100 py-3">
             <div class="side-pro">
                 <div class="profile">
-                    <img src="{{url_for('static',filename='assets/profile.png')}}" alt="profile_pic"
-                        class="profile-pic">
+                    <img src="{{ url_for('static', filename='assets/profile.png') }}" alt="profile_pic"
+                        class="profile-pic" />
                     <h2>{{ user['username'] }}</h2>
                     <p><em>{{ user['email'] }}</em></p>
                     <h2 class="badge text-bg-info p-3 role-text">{{ user['role'] }}</h2>
-                    <p>{{ user['github_link'] }}</p>
-                    <p>{{ user['linkedin_link'] }}</p>
+                    <p></p>
+               
                     {% for skill in user['skills'] %}
                     <span class="badge bg-info p-2">{{ skill }}</span>
                     {% endfor %}
 
                     <div class="mt-5 px-5">
-                        <p class="d-flex flex-start"> <img src="{{url_for('static',filename='assets/github-logo.png')}}"
-                                alt="profile_pic" class="social-logo me-3"> github.com/vatsan-0613</p>
-                        <p class="d-flex flex-start"> <img
-                                src="{{url_for('static',filename='assets/linkedin-logo.png')}}" alt="profile_pic"
-                                class="social-logo me-3"> linkedin.com/in/srivatsan13/</p>
+                        <p class="d-flex flex-start">
+                            <img src="{{ url_for('static', filename='assets/github-logo.png') }}" alt="profile_pic"
+                                class="social-logo me-3" />
+                               {{user.github}} 
+                        </p>
+                        <p class="d-flex flex-start">
+                            <img src="{{ url_for('static', filename='assets/linkedin-logo.png') }}" alt="profile_pic"
+                                class="social-logo me-3" />
+                           {{user.linkedin}} 
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-8 py-3">
             <section class="profile-details d-flex flex-column p-3">
-                <!-- <h3>Main Profile</h3> -->
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column align-items-start">
                         <h4 class="mb-0">Profile Completion</h4>
@@ -47,7 +49,7 @@
                             <span class="progress-right">
                                 <span class="progress-bar"></span>
                             </span>
-                            <div class="progress-value" id="progress-value"></div>
+                            <div class="progress-value" id="progress-value">90%</div>
                         </div>
                     </div>
                     <div class="chart">
@@ -68,83 +70,51 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header" data-bs-theme="dark">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Complete Profile</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                            Complete Profile
+                        </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="row" action="/profile" method="POST" id="profileForm">
-                            <label class="text-start" for="github_link">GitHub Link</label><br>
-                            <input class="form-control mb-3" placeholder="Enter your github profile url" type="text"
-                                id="github_link" name="github_link" required><br>
-                            <label class="text-start" for="linkedin_link">LinkedIn Link</label><br>
-                            <input class="form-control mb-3" placeholder="Enter your linkedin profile url" type="text"
-                                id="linkedin_link" name="linkedin_link" required><br>
+                        <form class="row" action="/auth/profile" method="post" id="profileForm">
+                            <label class="text-start" for="github_link">GitHub Link</label><br />
+                            <input class="form-control mb-3" placeholder="Enter your GitHub profile URL" type="text"
+                                id="github_link" name="github_link" required /><br />
+                            <label class="text-start" for="linkedin_link">LinkedIn Link</label><br />
+                            <input class="form-control mb-3" placeholder="Enter your LinkedIn profile URL" type="text"
+                                id="linkedin_link" name="linkedin_link" required /><br />
 
-
-                            <label class="text-start" for="skills">Skills</label><br>
-
-                            <!-- <select multiple id="skills" name="skills">
-                            {% for skill in skills_set%}
-                            <option value="{{skill}}">{{skill}}</option>
-                            {% endfor %}
-                        </select> -->
-
-                            <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
-                                <option value="AL" class="text-secondary bg-secondary">Alabama</option>
-                                <option value="WY" class="text-secondary">Wyoming</option>
+                            <label class="text-start" for="skills">Skills</label><br />
+                            <select class="js-example-basic-multiple" name="skills[]" multiple="multiple">
+                                {% for skill in skills_set %}
+                                <option value="{{ skill }}">{{ skill }}</option>
+                                {% endfor %}
                             </select>
-
-                            <!-- <button class="btn btn-primary mt-3" type="button" id="addSkillBtn">Add Skill</button><br> -->
 
                             <ul class="label-text" id="selectedSkillsList"></ul>
-                            <input type="hidden" name="selectedSkills" id="selectedSkills" required>
+                            <input type="hidden" name="selectedSkills" id="selectedSkills" required />
 
-                            <label class="label-text skills text-start" for="role">Role</label><br>
+                            <label class="label-text skills text-start" for="role">Role</label><br />
                             <select id="role" name="role" class="form-control">
-                                <option value="hi">Hi</option>
-                                <option value="hello">Hello</option>
-                                <option value="vanakam">Vanakam</option>
-                                <option value="welcome">Welcome</option>
+                                {% for role_name in roles %}
+                                <option value="{{role_name}}">{{role_name}}</option>
+                                {% endfor %}
                             </select>
+                            <button class="btn btn-primary mt-3" type="submit">Submit</button>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    const user = {
-                username: "{{ user['username'] }}",
-                email: "{{ user['email'] }}",
-                role: "{{ user['role'] }}",
-                github_link: "{{ user['github_link'] }}",
-                linkedin_link: "{{ user['linkedin_link'] }}",
-                skills: `{{ user['skills']}}`
-            };
-            console.log(user);
-
-            function calculateProfileCompletion(user) {
-                const fields = ['username', 'email', 'role', 'github_link', 'linkedin_link', 'skills'];
-                let filledFields = 0;
-
-                fields.forEach(field => {
-                    if (user[field] && user[field].trim() !== '') {
-                        filledFields++;
-                    }
-                });
-
-                const percentage = (filledFields / fields.length) * 100;
-                return percentage.toFixed(2);
-            }
-
-            const completionPercentage = calculateProfileCompletion(user);
-            $('#progress-value').text(Math.round(completionPercentage) + '%');
-
-</script>
-<script src="{{url_for('static',filename='scripts/profile.js')}}"></script>
+  
+console.log(`{{ user["email"] }}`);
+    </script>
 {% endblock %}
