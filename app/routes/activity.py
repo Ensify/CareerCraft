@@ -20,7 +20,8 @@ def learning(project_id):
         flash("User not enrolled in this course. Please report if you think this is a mistake.","error")
         return redirect(url_for('main.landing'))
     
-    roadmap_object = mongo_handle.get_roadmap_object(enroll_object)
+    roadmap_object = mongo_handle.get_roadmap_object(enroll_object["_id"]).get("intermediate goals")
+    print(roadmap_object)
 
     return render_template('learning.html', roadmap_object = roadmap_object, project_id = project_id)
 

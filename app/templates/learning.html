@@ -22,10 +22,10 @@
             <div class="road"></div>
             <div class="pad-content">
 
-                {% for goal in roadmap%}
+                {% for goal in roadmap_object%}
                     <div class="goal ms-2 me-2 mb-5">
                         <div class="d-flex align-items-center">
-                            <img src="{{url_for('static',filename='images/goals.png')}}" alt="" class="mile-img me-3">
+                            <img src="{{url_for('static',filename='assets/goals.png')}}" alt="" class="mile-img me-3">
                             <h2>{{ goal.title }}</h2>
                         </div>
                         {% for milestone in goal.milestones %}
