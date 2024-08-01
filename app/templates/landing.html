@@ -2,6 +2,69 @@
 {% block title %}CareerCraft{% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
+<style>
+    .recommended-projects-scrollable {
+        overflow-x: auto;
+        white-space: nowrap;
+        background-color: #43455c;
+        border-radius: 5px;
+        padding: 15px;
+        /* Add padding to prevent content from touching edges */
+    }
+
+    .recommended-projects-scrollable .project-card {
+        display: inline-block;
+        width: 100%;
+        max-width: 300px;
+        margin-right: 15px;
+    }
+
+    .project-card {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        /* Center the card */
+    }
+
+    .card-cont {
+        padding: 0;
+        /* Ensure no extra padding affects the card size */
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        max-height: 400px;
+        /* Set a max-height to keep cards consistent */
+        overflow: hidden;
+        /* Prevent content overflow */
+    }
+
+    .card-body {
+        padding: 15px;
+        /* Add padding inside the card body */
+    }
+
+    .card-title,
+    .card-text {
+        overflow: visible;
+        /* Allow overflow to be visible */
+        white-space: normal;
+        /* Allow text to wrap */
+    }
+
+    .card-text {
+        /* Optional: Control the maximum height of the text container */
+        max-height: 80px;
+        /* Adjust as needed */
+        overflow: hidden;
+        /* Hide text that exceeds container */
+        text-overflow: ellipsis;
+        /* Add ellipsis if needed */
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +73,7 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-12 col-md-3">
-            <div class="filter-container ps-3 pe-3">
+            <div class="filter-container ps-3 pe-3" id="filter-container">
                 <form action="">
                     <div class="container">
                         <div class="row d-flex align-items-center">
@@ -55,8 +118,8 @@
                             </div>
                         </div>
                         <div class="difficulty-sec">
-                            <select id="difficulty-search" class="diffculty-filter js-example-basic-multiple" name="difficulties[]"
-                                multiple="multiple">
+                            <select id="difficulty-search" class="diffculty-filter js-example-basic-multiple"
+                                name="difficulties[]" multiple="multiple">
                                 <option value="Easy" class="text-secondary">Easy</option>
                                 <option value="Intermediate" class="text-secondary">Intermediate</option>
                                 <option value="Difficult" class="text-secondary">Difficult</option>
@@ -67,9 +130,33 @@
             </div>
         </div>
         <div class="col-12 col-md-9">
+            <!-- Recommended Projects -->
+            <div class="container title-bar pt-1 pb-1">
+                <strong>Recommended Projects</strong>
+            </div>
+            <div class="recommended-projects-scrollable p-2 mb-4">
+                {% for rec_project in recommended_projects %}
+                <div class="project-card" data-skills="{{ rec_project.skills | join(',') }}"
+                    data-roles="{{ rec_project.roles | join(',') }}" data-title="{{ rec_project.title }}"
+                    data-difficulty="{{ rec_project.level }}">
+                    <div class="container card-cont">
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between flex-column">
+                                <h5 class="card-title">{{ rec_project.title }}</h5>
+                                <p class="card-text">{{ rec_project.description }}</p>
+                                <a href="{{ url_for('main.get_project_details', id=rec_project.projectId) }}"
+                                    class="explore-btn btn btn-primary">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Explore Projects -->
             <div class="scrollable-div p-2">
                 <div class="row mt-2 ms-2 me-2">
-                    <div class=" container title-bar pt-1 pb-1">
+                    <div class="container title-bar pt-1 pb-1">
                         <strong>Explore Projects</strong>
                     </div>
                 </div>

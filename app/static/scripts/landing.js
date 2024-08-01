@@ -42,7 +42,8 @@ $(document).ready(function () {
       difficulty.toLowerCase()
     );
 
-    $(".project-card").each(function () {
+    // Only apply filtering to the Explore Projects section
+    $("#project-list .project-card").each(function () {
       var projectSkills = $(this)
         .data("skills")
         .split(",")
@@ -73,10 +74,12 @@ $(document).ready(function () {
     });
   }
 
+  // Event listeners for filter controls
   $("#skill-search, #role-search, #difficulty-search, #filter-query-box").on(
     "change keyup",
     filterProjects
   );
+
   $(".filter-submit-btn").on("click", function (e) {
     e.preventDefault();
     filterProjects();
