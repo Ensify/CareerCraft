@@ -29,10 +29,10 @@
                             </div>
                         </div>
                         <div class="role-sec">
-                            <select id="role-search" class="js-example-basic-multiple" name="roles[]"
+                            <select id="role-search" class="role-filter js-example-basic-multiple" name="roles[]"
                                 multiple="multiple">
                                 {% for role in roles %}
-                                <option value="{{role}}" class="text-secondary">{{role}}</option>
+                                <option value="{{role}}" class="role-filter text-secondary">{{role}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="skill-sec">
-                            <select id="skill-search" class="js-example-basic-multiple" name="skills[]"
+                            <select id="skill-search" class="skill-filter js-example-basic-multiple" name="skills[]"
                                 multiple="multiple">
                                 {% for skill in skills %}
                                 <option value="{{skill}}" class="text-secondary">{{skill}}</option>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="difficulty-sec">
-                            <select id="difficulty-search" class="js-example-basic-multiple" name="difficulties[]"
+                            <select id="difficulty-search" class="diffculty-filter js-example-basic-multiple" name="difficulties[]"
                                 multiple="multiple">
                                 <option value="Easy" class="text-secondary">Easy</option>
                                 <option value="Intermediate" class="text-secondary">Intermediate</option>

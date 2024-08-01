@@ -3,8 +3,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/learning.css') }}">
 {% endblock %}
 {% block content %}
-
-
 <div class="container">
     <div class="row mt-3">
         <div class="col-4 me-auto">
@@ -21,29 +19,33 @@
         <div class="d-flex mile-content pt-3 pb-3">
             <div class="road"></div>
             <div class="pad-content">
-
                 {% for g in range(roadmap_object|length)%}
-                    <div class="goal ms-2 me-2 mb-5">
-                        <div class="d-flex align-items-center">
-                            <img src="{{url_for('static',filename='assets/goals.png')}}" alt="" class="mile-img me-3">
-                            <h2>{{ roadmap_object[g].title }}</h2>
-                        </div>
-                        {% for m in range(roadmap_object[g].milestones|length) %}
-                            <div class="milestone mt-2">
-                                <h3>{{ roadmap_object[g].milestones[m].title }}</h3>
-                                <div class="task">
-                                    <ul>
-                                        {% for t in range(roadmap_object[g].milestones[m].tasks|length) %}
-                                            <li>
-                                                <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }} {{g+1}}-{{m+1}}-{{t+1}}</h4>
-                                                <p>{{ roadmap_object[g].milestones[m].tasks[t].description }}</p>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        {% endfor %}
+                <div class="goal ms-2 me-2 mb-5">
+                    <div class="d-flex align-items-center">
+                        <img src="{{url_for('static',filename='assets/goals.png')}}" alt="" class="mile-img me-3">
+                        <h2>{{ roadmap_object[g].title }}</h2>
                     </div>
+                    {% for m in range(roadmap_object[g].milestones|length) %}
+                    <div class="milestone mt-2">
+                        <h3>{{ roadmap_object[g].milestones[m].title }}</h3>
+                        <div class="task">
+                            <ul>
+                                {% for t in range(roadmap_object[g].milestones[m].tasks|length) %}
+                                <li>
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" class="task-checkbox"
+                                            data-task-id="{{ g+1 }}-{{ m+1 }}-{{ t+1 }}">
+                                        <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }} {{
+                                            g+1 }}-{{ m+1 }}-{{ t+1 }}</h4>
+                                    </div>
+                                    <p>{{ roadmap_object[g].milestones[m].tasks[t].description }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -57,8 +59,29 @@
         </div>
     </div>
     {% endif %}
-    
-
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" data-bs-theme="dark">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Feedback</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row" action="/profile" method="POST" id="profileForm">
+                    <label class="text-start" for="github_link">GitHub Link</label><br>
+                    <input class="form-control mb-3" placeholder="Enter your github profile url" type="text"
+                        id="github_link" name="github_link" required><br>
+                    <label class="text-start">Decription</label>
+                    <input class="form-control mb-3" placeholder="Enter the description" type="text" required>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modalSubmitBtn">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -69,6 +92,30 @@
                 goal.classList.toggle('active');
             });
         });
+
+        const checkboxes = document.querySelectorAll('.task-checkbox');
+        let currentCheckbox = null;
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    currentCheckbox = this;
+                    const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                    modal.show();
+                }
+            });
+        });
+
+        document.getElementById('modalSubmitBtn').addEventListener('click', function () {
+            if (currentCheckbox) {
+                const taskId = currentCheckbox.getAttribute('data-task-id');
+                console.log(taskId);
+                currentCheckbox.checked = true;
+                const modal = bootstrap.Modal.getInstance(document.getElementById('staticBackdrop'));
+                modal.hide();
+            }
+        });
     });
 </script>
+
 {% endblock %}
