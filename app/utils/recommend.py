@@ -82,6 +82,9 @@ class Recommender():
         """
         Apply role-based filtering to the projects.
         """
+        role = user.get('role',None)
+        if role is None:
+            return projects
         return [project for project in projects if user['role'] in project['roles']]
     
     def __applyRuleDifficultyFilter(self, user, projects):
@@ -100,6 +103,9 @@ class Recommender():
         """
         Apply skill-based filtering to the projects.
         """
+        role = user.get('skills',None)
+        if role is None:
+            return projects
         user_skills = user['skills']
         return self.skill_matcher.match_skills(user_skills, 5)
 
