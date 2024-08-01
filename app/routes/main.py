@@ -6,6 +6,7 @@ from app.mongo import MongoHandle
 import time
 import os
 from datetime import datetime
+from app.utils.recommend import Recommender
 
 main = Blueprint('main', __name__)
 mongo_handle = MongoHandle()
@@ -28,7 +29,10 @@ def landing():
     with open("data/roles.txt") as f:
         for line in f:
             roles.append(line.strip())
-    return render_template('landing.html', projects=projects, skills=skills_set, roles=roles)
+    recommender = Recommender()
+    user = recommender.mongo.get_user_object(current_user.mongo_objectId)
+    recommended_projects = recommender.getRecommendations(user, 1)
+    return render_template('landing.html', projects=projects, skills=skills_set, roles=roles, recommended_projects = recommended_projects)
 
 @main.route("/project/<int:id>")
 @login_required
