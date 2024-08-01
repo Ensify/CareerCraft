@@ -8,11 +8,11 @@
 <div class="title-desc">
     <div class="text">
 
-        <div class="d-flex justify-content-center flex-row title-flex align-items-center">
+        <div class="d-flex flex-row title-flex align-items-center">
             <div>
                 <h1 class="w-75  mb-3">{{project.title}}</h1>
                 <p class=" desc-container">
-                    {{project.description[12:]}}
+                    {{project.description.capitalize()}}
                 </p>
                 {% if not enrolled%}
                         <button  type="button" class="mt-4 btn btn-primary enroll-btn" data-bs-toggle="modal" data-bs-target="#enrollModal">
@@ -30,7 +30,9 @@
                     <hr class="slim-line">
                 </div>
                 <div>
-                    <p class=" mt-0 sub-head">{{project.level}} Level</p>
+                    <p class="mt-0 sub-head {{ project.level.lower() }}">
+                        <span  style="color: black;" class="me-1 sub-head">Level:</span>{{ project.level.capitalize() }} 
+                    </p>
                 </div>
                 <div>
                     <p class="sub-head">5+ hours</p>

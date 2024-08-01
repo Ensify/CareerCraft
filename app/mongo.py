@@ -55,7 +55,7 @@ class MongoHandle:
         return enroll
     
     def get_user_enrollments(self, user_id):
-        enrollments = self.enroll_collection.find({'userId': user_id})
+        enrollments = self.enroll_collection.find({'userId': user_id["_id"]})
         return [enroll for enroll in enrollments]
     
 

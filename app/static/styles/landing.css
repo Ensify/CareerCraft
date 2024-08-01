@@ -118,3 +118,9 @@
 .select2-container {
   width: 250px;
 }
+
+@media screen and (max-width: 1400px) {
+  .role-filter {
+    width: 50px !important;
+  }
+}
