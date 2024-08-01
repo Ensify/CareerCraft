@@ -196,4 +196,11 @@ class MongoHandle:
         for task in tasks:
             progress_data[task['taskId']] = task['completion']
         return progress_data
-
+    
+    def update_task_completion(self, taskId, project_id, user_id):
+        enroll_id = self.is_user_enrolled(user_id, int(project_id)).get('_id')
+        print("---------")
+        roadmap_id = self.get_roadmap_object(enroll_id=enroll_id).get("_id")
+        print(enroll_id, roadmap_id)
+        modified = self.progress_collection.update_one({'roadmapId': str(roadmap_id), 'taskId': taskId}, {'$set': {'completion': 1}})
+        return modified.modified_count
