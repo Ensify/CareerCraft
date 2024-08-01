@@ -71,7 +71,9 @@ body {
   box-shadow: 0px 0px 20px 10px gray;
 }
 .title-flex {
-  gap: 20px;
+  gap: 13.5%;
+  padding-left: 6%;
+  padding-right: 6%;
 }
 
 .sub-head {
@@ -103,4 +105,16 @@ body {
 .desc-container {
   width: 700px;
   text-align: justify;
+}
+
+.easy {
+  color: green;
+}
+
+.intermediate {
+  color: orange;
+}
+
+.difficult {
+  color: red;
 }
