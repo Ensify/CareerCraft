@@ -8,76 +8,92 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="container">
-<div class="row mt-5">
-    <div class="col-12 col-md-3">
-        <div class="filter-container ps-3 pe-3">
-            <form action="">
-                <div class="container">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-12 mt-3 p-0">
-                            <div class="search-box">
-                                <input type="text" name="filter-query" id="filter-query-box" class="filter-textbox">
-                                <button type="submit" class="filter-submit-btn"><img
-                                        src="{{url_for('static',filename='assets/search.png')}}" alt=""
-                                        class="search"></button>
+    <div class="row mt-5">
+        <div class="col-12 col-md-3">
+            <div class="filter-container ps-3 pe-3">
+                <form action="">
+                    <div class="container">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-12 mt-3 p-0">
+                                <div class="search-box">
+                                    <input type="text" name="filter-query" id="filter-query-box" class="filter-textbox">
+                                    <button type="submit" class="filter-submit-btn"><img
+                                            src="{{url_for('static',filename='assets/search.png')}}" alt=""
+                                            class="search"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container mt-2 mb-3 ps-0">
+                                By Role
+                            </div>
+                        </div>
+                        <div class="role-sec">
+                            <select id="role-search" class="js-example-basic-multiple" name="roles[]"
+                                multiple="multiple">
+                                {% for role in roles %}
+                                <option value="{{role}}" class="text-secondary">{{role}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="container mt-2 mb-3 ps-0">
+                                By Skill
+                            </div>
+                        </div>
+                        <div class="skill-sec">
+                            <select id="skill-search" class="js-example-basic-multiple" name="skills[]"
+                                multiple="multiple">
+                                {% for skill in skills %}
+                                <option value="{{skill}}" class="text-secondary">{{skill}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="container mt-2 mb-3 ps-0">
+                                By Difficulty
+                            </div>
+                        </div>
+                        <div class="difficulty-sec">
+                            <select id="difficulty-search" class="js-example-basic-multiple" name="difficulties[]"
+                                multiple="multiple">
+                                <option value="Easy" class="text-secondary">Easy</option>
+                                <option value="Intermediate" class="text-secondary">Intermediate</option>
+                                <option value="Difficult" class="text-secondary">Difficult</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-md-9">
+            <div class="scrollable-div p-2">
+                <div class="row mt-2 ms-2 me-2">
+                    <div class=" container title-bar pt-1 pb-1">
+                        <strong>Explore Projects</strong>
+                    </div>
+                </div>
+                <div class="row" id="project-list">
+                    {% for project in projects %}
+                    <div class="col-xl-4 col-md-6 col-12 mt-3 project-card"
+                        data-skills="{{ project.skills | join(',') }}" data-roles="{{ project.roles | join(',') }}"
+                        data-title="{{ project.title }}" data-difficulty="{{ project.level }}">
+                        <div class="container card-cont">
+                            <div class="card">
+                                <div class="card-body d-flex justify-content-between flex-column">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <p class="card-text">{{ project.description }}</p>
+                                    <a href="{{ url_for('main.get_project_details', id=project.projectId) }}"
+                                        class="explore-btn btn btn-primary">Explore</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="container mt-2 mb-3 ps-0">
-                            By Role
-                        </div>
-                    </div>
-                    <div class="role-sec">
-                        <select id="role-search" class="js-example-basic-multiple" name="states[]" multiple="multiple">
-                            {% for role in roles %}
-                            <option value="{{role}}" class="text-secondary">{{role}}</option>
-                            {% endfor %}
-                        </select>   
-                    </div>
-                    <div class="row">
-                        <div class="container mt-2 mb-3 ps-0">
-                            By Skill
-                        </div>
-                    </div>
-                    <div class="skill-sec">
-                        <select id="skill-search" class="js-example-basic-multiple" name="states[]" multiple="multiple">
-                            {% for skill in skills %}
-                            <option value="{{skill}}" class="text-secondary">{{skill}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-12 col-md-9">
-        <div class="scrollable-div p-2">
-            <div class="row mt-2 ms-2 me-2">
-                <div class=" container title-bar pt-1 pb-1">
-                    <strong>Explore Projects</strong>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="row" id="project-list">
-                {% for project in projects %}
-                <div class="col-xl-4 col-md-6 col-12 mt-3 project-card" data-skills="{{ project.skills | join(',') }}" data-roles="{{ project.roles | join(',') }}" data-title="{{ project.title }}">
-                  <div class="container card-cont">
-                    <div class="card">
-                      <div class="card-body d-flex justify-content-between flex-column">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description }}</p>
-                        <a href="{{ url_for('main.get_project_details', id=project.projectId) }}" class="explore-btn btn btn-primary">Explore</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </div>
         </div>
     </div>
-</div>
-
-</div>
 </div>
 <script src="{{ url_for('static', filename='scripts/landing.js') }}"></script>
 {% endblock %}
