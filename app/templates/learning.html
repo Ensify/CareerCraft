@@ -19,10 +19,10 @@
         <div class="d-flex mile-content pt-3 pb-3">
             <div class="road"></div>
             <div class="pad-content">
-                {% for g in range(roadmap_object|length)%}
+                {% for g in range(roadmap_object|length) %}
                 <div class="goal ms-2 me-2 mb-5">
                     <div class="d-flex align-items-center">
-                        <img src="{{url_for('static',filename='assets/goals.png')}}" alt="" class="mile-img me-3">
+                        <img src="{{ url_for('static', filename='assets/goals.png') }}" alt="" class="mile-img me-3">
                         <h2>{{ roadmap_object[g].title }}</h2>
                     </div>
                     {% for m in range(roadmap_object[g].milestones|length) %}
@@ -31,12 +31,14 @@
                         <div class="task">
                             <ul>
                                 {% for t in range(roadmap_object[g].milestones[m].tasks|length) %}
+                                {% set task_id = "{}-{}-{}".format(g + 1, m + 1, t + 1) %}
+
                                 <li>
                                     <div class="d-flex align-items-center">
-                                        <input type="checkbox" class="task-checkbox"
-                                            data-task-id="{{ g+1 }}-{{ m+1 }}-{{ t+1 }}">
-                                        <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }} {{
-                                            g+1 }}-{{ m+1 }}-{{ t+1 }}</h4>
+                                        <input type="checkbox" class="task-checkbox" data-task-id="{{ task_id }}" {% if
+                                            progress_data[task_id]==1 %}checked disabled{% endif %}>
+                                        <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }}
+                                            {{ task_id }}</h4>
                                     </div>
                                     <p>{{ roadmap_object[g].milestones[m].tasks[t].description }}</p>
                                 </li>
@@ -54,7 +56,7 @@
     <div class="container mt-5">
         <div class="row quiz-panel">
             <div class="text-center align-self-center">
-                <a href="{{url_for('activity.quiz', project_id=project_id)}}">Take Quiz to start!</a>
+                <a href="{{ url_for('activity.quiz', project_id=project_id) }}">Take Quiz to start!</a>
             </div>
         </div>
     </div>
@@ -73,8 +75,9 @@
                     <label class="text-start" for="github_link">GitHub Link</label><br>
                     <input class="form-control mb-3" placeholder="Enter your github profile url" type="text"
                         id="github_link" name="github_link" required><br>
-                    <label class="text-start">Decription</label>
-                    <input class="form-control mb-3" placeholder="Enter the description" type="text" required>
+                    <label class="text-start">Description</label>
+                    <textarea placeholder="Enter your description" class="form-control mb-3" rows="4" id="description"
+                        name="description" required></textarea>
                 </form>
             </div>
             <div class="modal-footer">
@@ -98,10 +101,18 @@
 
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
-                if (this.checked) {
+                if (this.checked && !this.disabled) {
                     currentCheckbox = this;
+                    this.checked = false;
                     const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
                     modal.show();
+
+                    document.getElementById('staticBackdrop').addEventListener('hidden.bs.modal', function () {
+                        if (currentCheckbox) {
+                            currentCheckbox.checked = false;
+                            currentCheckbox = null;
+                        }
+                    }, { once: true });
                 }
             });
         });
@@ -111,11 +122,29 @@
                 const taskId = currentCheckbox.getAttribute('data-task-id');
                 console.log(taskId);
                 currentCheckbox.checked = true;
+                currentCheckbox.disabled = true;
+                updateProgressData(taskId);
+                currentCheckbox = null;
                 const modal = bootstrap.Modal.getInstance(document.getElementById('staticBackdrop'));
                 modal.hide();
             }
         });
+
+        function updateProgressData(taskId) {
+            fetch('/update_progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ task_id: taskId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Error updating progress data');
+                    }
+                });
+        }
     });
 </script>
-
 {% endblock %}
