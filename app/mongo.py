@@ -127,7 +127,7 @@ class MongoHandle:
     def get_roadmap_object(self, enroll_id):
         roadmap = self.roadmap_collection.find_one({'enrollId': enroll_id})
         if roadmap:
-            return roadmap['roadmap']
+            return roadmap
         return None
     
     def get_user_projects(self, user_id):
@@ -142,3 +142,11 @@ class MongoHandle:
     def get_project_enrollments(self, project_id):
         enrollments = self.enroll_collection.find({'projectId': project_id})
         return [enroll for enroll in enrollments]
+    
+    def get_progress(self, roadmapId):
+        roadmapId = str(roadmapId)
+        tasks = self.progress_collection.find({'roadmapId': roadmapId})
+        progress_data = {}
+        for task in tasks:
+            progress_data[task['taskId']] = task['completion']
+        return progress_data
