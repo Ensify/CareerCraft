@@ -30,9 +30,9 @@ def learning(project_id):
         if roadmap:
             roadmap = roadmap.get("intermediate goals")    
 
-    print(roadmap_object)
+    print(progress_data)
 
-    return render_template('learning.html', roadmap_object = roadmap, project_id = project_id, progress_data = progress_data)
+    return render_template('learning.html', roadmap_object = roadmap, project_id = project_id, progress_data = progress_data, is_project=True)
 
 
 @activity.route("/quiz/<int:project_id>", methods=["GET"])
@@ -104,4 +104,7 @@ def project_leaderboard(project_id):
 @login_required
 def update_progress():
     print(request.data)
+    data = json.loads(request.data.decode('utf-8'))
+    modified = mongo_handle.update_task_completion(data["task_id"], data["project_id"], current_user.mongo_objectId)
+    print("Modified count:",modified)
     return {"status": "success"}

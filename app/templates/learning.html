@@ -35,8 +35,11 @@
 
                                 <li>
                                     <div class="d-flex align-items-center">
-                                        <input type="checkbox" class="task-checkbox" data-task-id="{{ task_id }}" {% if
-                                            progress_data[task_id]==1 %}checked disabled{% endif %}>
+                                        {% if progress_data[task_id]==1 %}
+                                        <input type="checkbox" class="task-checkbox" data-task-id="{{ task_id }}"checked disabled>
+                                        {% else %}
+                                        <input type="checkbox" class="task-checkbox" data-task-id="{{ task_id }}">
+                                        {% endif %}
                                         <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }}
                                             {{ task_id }}</h4>
                                     </div>
@@ -133,6 +136,7 @@
         function updateProgressData(taskId) {
             var url = `{{ url_for('activity.update_progress')}}`;
             var project_id = `{{ project_id }}`;
+       
             fetch(url, {
                 method: 'POST',
                 headers: {
