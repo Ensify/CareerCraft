@@ -59,7 +59,7 @@ def authenticate():
                 db.session.add(user)
                 db.session.commit()
                 flash('Your account has been created! You are now able to log in', 'success')
-                return redirect(url_for('auth.authenticate'))
+                return redirect(url_for('auth.profile'))
 
     return render_template('auth.html')
 

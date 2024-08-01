@@ -32,6 +32,7 @@ def landing():
     recommender = Recommender()
     user = recommender.mongo.get_user_object(current_user.mongo_objectId)
     recommended_projects = recommender.getRecommendations(user, 1)
+    print(recommended_projects)
     return render_template('landing.html', projects=projects, skills=skills_set, roles=roles, recommended_projects = recommended_projects)
 
 @main.route("/project/<int:id>")
