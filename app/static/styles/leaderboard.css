@@ -1,0 +1,60 @@
+body{
+    background-color: #181625;
+    color : #fff;
+}
+div{
+    color : #fff;
+}
+div{
+    color : #fff;
+}
+
+.lead-table{
+    border : 2px solid gray;
+    border-radius: 10px;
+    padding : 2%;
+    background-color: #1B1D31;
+}
+
+.row1{
+    background-color: #252641;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    padding : 1%;
+    align-items: center;
+}
+
+.row2{
+    background-color: #1E2137;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    padding : 1%;
+    align-items: center;
+}
+.row1 > div {
+    flex: 1; 
+}
+.row2 > div {
+    flex: 1; 
+}
+
+.row-head{
+    background-color: #252641;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    padding : 2%;
+    /* font-weight: bolder; */
+}
+
+.row-head > div {
+    flex: 1; 
+}
+
+.target{
+    width : 10%;
+}

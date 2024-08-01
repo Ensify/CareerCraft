@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}CareerCraft{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/leaderboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <div class="container-fluid">
+        {% if overall_leaderboard_sorted%}
+        <h1 class="text-center mb-4 mt-4">Overall <img src="{{url_for('static',filename='assets/target.png')}}" alt="" class="target"> Leaderboard</h1>
+        {% endif %}
+
+        {%  if leaderboard_sorted %}
+        <h1 class="text-center mb-4">Leaderboard - {{project_name}}</h1>
+        {% endif %}
+        <div class="lead-table">
+                {% if overall_leaderboard_sorted%}
+                <div class="row-head">
+                    <div>Rank</div>
+                    <div>User Name</div>
+                    <div>User Role</div>
+                    <div>Total Projects</div>
+                    <div>Completed Projects</div>
+                    <div>Average Completion Percentage</div>
+                    <div>Earliest Completion Date</div>
+                </div>
+                {% endif %}
+
+                {% if leaderboard_sorted%}
+                <div class="row-head">
+                    <div>User Name</div>
+                    <div>User Role</div>
+                    <div>Enroll Date</div>
+                    <div>Completion Percentage</div>
+
+                </div>
+            {% endif %}
+                {% if leaderboard_sorted%}
+                {% for user in leaderboard_sorted %}
+                {% if loop.index is even %}
+        <div class="row1">
+            <div>{{ user.userName }}</div>
+            <div>{{ user.userRole }}</div>
+            <div>{{ user.enrollDate | datetime }}</div>
+            <div>{{ user.completionPercentage }}</div>
+        </div>
+    {% else %}
+        <div class="row2">
+            <div>{{ user.userName }}</div>
+            <div>{{ user.userRole }}</div>
+            <div>{{ user.enrollDate | datetime}}</div>
+            <div>{{ user.completionPercentage }}</div>
+        </div>
+    {% endif %}
+                {% endfor %}
+                {% endif %}
+
+                {% if overall_leaderboard_sorted%}
+                {% for user in overall_leaderboard_sorted %}
+                {% if loop.index is even %}
+        <div class="row1">
+                    {% if loop.index == 2 %} 
+                        <div><img src="{{url_for('static',filename='assets/second.png')}}" alt=""></div>
+                    {% else %}
+                    <div>{{loop.index}}</div>
+                    {% endif %}
+                    <div>{{ user.userName }}</div>
+                    <div>{{ user.userRole }}</div>
+                    <div>{{ user.totalProjects }}</div>
+                    <div>{{ user.completedProjects }}</div>
+                    <div>{{ user.avgCompletionPercentage }}%</div>
+                    <div>{{ user.earliestCompletionDate }}</div>
+                </div>
+                {% else %}
+                <div class="row2">
+                    {% if loop.index == 1 %} 
+                        <div><img src="{{url_for('static',filename='assets/first.png')}}" alt=""></div>
+                    {% elif loop.index == 3 %}
+                    <div><img src="{{url_for('static',filename='assets/third.png')}}" alt=""></div>
+                    {% else %}
+                    <div>{{loop.index}}</div>
+                    {% endif %}
+                    <div>{{ user.userName }}</div>
+                    <div>{{ user.userRole }}</div>
+                    <div>{{ user.totalProjects }}</div>
+                    <div>{{ user.completedProjects }}</div>
+                    <div>{{ user.avgCompletionPercentage }}%</div>
+                    <div>{{ user.earliestCompletionDate }}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
+    </div>
+
+    {% endblock %}

@@ -120,7 +120,7 @@
 }
 
 @media screen and (max-width: 1400px) {
-  .role-filter {
-    width: 50px !important;
+  .select2-selection--multiple {
+    width: 80% !important;
   }
 }
