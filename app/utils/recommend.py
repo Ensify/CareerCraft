@@ -75,6 +75,8 @@ class Recommender():
                 recommended_projects = self.__applyRuleSkillMatchFilter(user, recommended_projects)
             else:
                 raise ValueError(f"Invalid recommendation scheme: {scheme}")
+        
+        return recommended_projects
     
     def __applyRuleRoleFilter(self, user, projects):
         """
@@ -87,9 +89,12 @@ class Recommender():
         Apply difficulty-based filtering to the projects.
         """
         vals = {"easy": 0, "intermediate": 1, "difficult": 2}
-        enrolled_difficulties = [vals[i["difficulty"]] for i in self.__getEnrolledProjects(user)]
-        avg_difficulty = sum(enrolled_difficulties) // len(avg_difficulty)
-        return [project for project in projects if vals[project['difficulty']] >= avg_difficulty]
+        enrolled_difficulties = [vals[i["level"]] for i in self.__getEnrolledProjects(user)]
+        if len(enrolled_difficulties) == 0:
+            avg_difficulty = 0
+        else:
+            avg_difficulty = sum(enrolled_difficulties) // len(enrolled_difficulties)
+        return [project for project in projects if vals[project['level']] >= avg_difficulty]
     
     def __applyRuleSkillMatchFilter(self, user, projects):
         """
@@ -98,7 +103,7 @@ class Recommender():
         user_skills = user['skills']
         return self.skill_matcher.match_skills(user_skills, 5)
 
-    def getRecommendations(self, user: dict, recommendationSchemes: list[int]) -> list[int]:
+    def getRecommendations(self, user: dict, recommendationSchemes: int) -> list[int]:
         """
         Get a list of recommended projects for a given user.
 
@@ -111,5 +116,11 @@ class Recommender():
         """
         # Implement recommendation logic here
         # This method should return a list of recommended projects for the given user
-        pass
+        match recommendationSchemes:
+            case 0:
+                return self.__applyscheme(user, ["role"])
+            case 1:
+                return self.__applyscheme(user, ["skill","role","difficulty"])
+            case _:
+                return self.__applyscheme(user, ["difficulty"])
 

@@ -17,13 +17,25 @@ class MongoHandle:
         self.roadmap_collection = self.db['roadmapData']
         self.progress_collection = self.db['progressData']
 
+    # def get_user_object(self, user_id):
+    #     user = User.query.get(int(user_id))
+    #     if user:
+    #         mongo_id = user.mongo_objectId
+    #         user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
+    #         return user_dict
+    #     return None
+    
     def get_user_object(self, user_id):
-        user = User.query.get(int(user_id))
-        if user:
-            mongo_id = user.mongo_objectId
-            user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
-            return user_dict
-        return None
+        user_dict = None
+        if isinstance(user_id, int):
+            user = User.query.get(int(user_id))
+            if user:
+                mongo_id = user.mongo_objectId
+                user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
+                return user_dict
+        else:
+            user_dict = self.user_collection.find_one({'_id': ObjectId(user_id)})
+        return user_dict
 
     def add_user_object(self, user_data):
         result = self.user_collection.insert_one(user_data)

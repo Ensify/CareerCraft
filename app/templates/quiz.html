@@ -16,6 +16,13 @@
     </button>
   </div>
 </div>
+
+<div id="loading-modal" class="loading-modal">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Please wait while we make a roadmap just for you...</p>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -104,6 +111,10 @@ function submitQuiz() {
     console.log(marks); // For testing purposes
 
     const endpoint = `{{ url_for("activity.process_quiz", project_id = project_id)}}`
+
+    // Show loading modal
+    document.getElementById('loading-modal').style.display = 'flex';
+
 
     // Send AJAX request
     fetch(endpoint, {
