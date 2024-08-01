@@ -60,9 +60,9 @@ class RoadmapClaude:
         return content
     
 def generate_roadmap(description, skillslevels):
-    with open('roadmap.json','r') as f:
-        roadmap = json.load(f)
-    return roadmap
+    # with open('roadmap.json','r') as f:
+    #     roadmap = json.load(f)
+    # return roadmap
     try:
         model = RoadmapClaude()
         roadmap = model(description, skillslevels)
