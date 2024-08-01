@@ -47,7 +47,7 @@ class Recommender():
         self.users = None
         self.enrollment = None
         self.ratings = None
-        self.skill_matcher = SkillMatcher(self.pro)
+        self.skill_matcher = SkillMatcher(self.projects)
     
     def __getEnrolledProjects(self, user):
         """
@@ -71,6 +71,8 @@ class Recommender():
                 recommended_projects = self.__applyRuleRoleFilter(user, recommended_projects)
             elif scheme == 'difficulty':
                 recommended_projects = self.__applyRuleDifficultyFilter(user, recommended_projects)
+            elif scheme == 'skill':
+                recommended_projects = self.__applyRuleSkillMatchFilter(user, recommended_projects)
             else:
                 raise ValueError(f"Invalid recommendation scheme: {scheme}")
     
@@ -94,7 +96,7 @@ class Recommender():
         Apply skill-based filtering to the projects.
         """
         user_skills = user['skills']
-        return [project for project in projects if all(skill in user_skills for skill in project['skills'])]
+        return self.skill_matcher.match_skills(user_skills, 5)
 
     def getRecommendations(self, user: dict, recommendationSchemes: list[int]) -> list[int]:
         """
