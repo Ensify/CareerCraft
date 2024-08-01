@@ -35,7 +35,7 @@ def landing():
 def get_project_details(id):
     current_project = mongo_handle.get_project_object(id)
     is_enrolled = mongo_handle.is_user_enrolled(current_user.mongo_objectId, id)
-    return render_template('project.html', project=current_project, enrolled=is_enrolled is not None)
+    return render_template('project.html', project=current_project, enrolled=is_enrolled is not None,project_id=current_project["projectId"], is_project= True)
 
 @main.route("/enroll", methods=["POST"])
 @login_required
@@ -57,5 +57,6 @@ def enroll():
 @main.route('/landing/leaderboard')
 @login_required
 def overall_leaderboard(project_id):
-    # TODO: To get all the user-specific projects and add their completion rates.
-    pass
+  # TODO: To get all the projects, filter tasks using enroll id(roadmap id) and add their completion rates to decide.
+
+  pass

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="widdiv=device-widdiv, initial-scale=1.0">
+    <title>Overall Leaderboard</title>    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<style>
+    body{
+        background-color: #181625;
+        color : #fff;
+    }
+    div{
+        color : #fff;
+    }
+    div{
+        color : #fff;
+    }
+
+    .lead-table{
+        border : 2px solid gray;
+        border-radius: 10px;
+        padding : 2%;
+        background-color: #1B1D31;
+    }
+
+    .row1{
+        background-color: #252641;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
+        padding : 1%;
+        align-items: center;
+    }
+
+    .row2{
+        background-color: #1E2137;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
+        padding : 1%;
+        align-items: center;
+    }
+    .row1 > div {
+        flex: 1; 
+    }
+    .row2 > div {
+        flex: 1; 
+    }
+
+    .row-head{
+        background-color: #252641;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        display: flex;
+        padding : 2%;
+        /* font-weight: bolder; */
+    }
+
+    .row-head > div {
+        flex: 1; 
+    }
+
+    .target{
+        width : 10%;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        {% if overall_leaderboard_sorted%}
+        <h1 class="text-center mb-4 mt-4">Overall <img src="{{url_for('static',filename='images/target.png')}}" alt="" class="target"> Leaderboard</h1>
+        {% endif %}
+
+        {%  if leaderboard_sorted %}
+        <h1 class="text-center mb-4">Leaderboard - {{project_name}}</h1>
+        {% endif %}
+        <div class="lead-table">
+                {% if overall_leaderboard_sorted%}
+                <div class="row-head">
+                    <div>Rank</div>
+                    <div>User Name</div>
+                    <div>User Role</div>
+                    <div>Total Projects</div>
+                    <div>Completed Projects</div>
+                    <div>Average Completion Percentage</div>
+                    <div>Earliest Completion Date</div>
+                </div>
+                {% endif %}
+
+                {% if leaderboard_sorted%}
+                <div class="row-head">
+                    <div>User Name</div>
+                    <div>User Role</div>
+                    <div>Enroll Date</div>
+                    <div>Completion Percentage</div>
+
+                </div>
+            {% endif %}
+                {% if leaderboard_sorted%}
+                {% for user in leaderboard_sorted %}
+                {% if loop.index is even %}
+        <div class="row1">
+            <div>{{ user.userName }}</div>
+            <div>{{ user.userRole }}</div>
+            <div>{{ user.enrollDate }}</div>
+            <div>{{ user.completionPercentage }}</div>
+        </div>
+    {% else %}
+        <div class="row2">
+            <div>{{ user.userName }}</div>
+            <div>{{ user.userRole }}</div>
+            <div>{{ user.enrollDate }}</div>
+            <div>{{ user.completionPercentage }}</div>
+        </div>
+    {% endif %}
+                {% endfor %}
+                {% endif %}
+
+                {% if overall_leaderboard_sorted%}
+                {% for user in overall_leaderboard_sorted %}
+                {% if loop.index is even %}
+        <div class="row1">
+                    {% if loop.index == 2 %} 
+                        <div><img src="{{url_for('static',filename='images/second.png')}}" alt=""></div>
+                    {% else %}
+                    <div>{{loop.index}}</div>
+                    {% endif %}
+                    <div>{{ user.userName }}</div>
+                    <div>{{ user.userRole }}</div>
+                    <div>{{ user.totalProjects }}</div>
+                    <div>{{ user.completedProjects }}</div>
+                    <div>{{ user.avgCompletionPercentage }}%</div>
+                    <div>{{ user.earliestCompletionDate }}</div>
+                </div>
+                {% else %}
+                <div class="row2">
+                    {% if loop.index == 1 %} 
+                        <div><img src="{{url_for('static',filename='images/first.png')}}" alt=""></div>
+                    {% elif loop.index == 3 %}
+                    <div><img src="{{url_for('static',filename='images/third.png')}}" alt=""></div>
+                    {% else %}
+                    <div>{{loop.index}}</div>
+                    {% endif %}
+                    <div>{{ user.userName }}</div>
+                    <div>{{ user.userRole }}</div>
+                    <div>{{ user.totalProjects }}</div>
+                    <div>{{ user.completedProjects }}</div>
+                    <div>{{ user.avgCompletionPercentage }}%</div>
+                    <div>{{ user.earliestCompletionDate }}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
+    </div>
+
+    <!-- Bootstrap 5 JS link here -->
+</body>
+</html>

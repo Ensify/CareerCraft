@@ -18,12 +18,17 @@ class MongoHandle:
         self.progress_collection = self.db['progressData']
 
     def get_user_object(self, user_id):
-        user = User.query.get(int(user_id))
-        if user:
-            mongo_id = user.mongo_objectId
-            user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
-            return user_dict
-        return None
+        user_dict = None
+        if isinstance(user_id, int):
+            user = User.query.get(int(user_id))
+            if user:
+                mongo_id = user.mongo_objectId
+                user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
+                return user_dict
+        else:
+            print(user_id, ObjectId(user_id))
+            user_dict = self.user_collection.find_one({'_id': ObjectId(user_id)})
+        return user_dict
 
     def add_user_object(self, user_data):
         result = self.user_collection.insert_one(user_data)
@@ -142,3 +147,22 @@ class MongoHandle:
     def get_project_enrollments(self, project_id):
         enrollments = self.enroll_collection.find({'projectId': project_id})
         return [enroll for enroll in enrollments]
+    
+
+    def get_roadmap_from_enrollment(self, enroll_id):
+        roadmap_obj = self.roadmap_collection.find_one({'enrollId': enroll_id})
+        if roadmap_obj:
+            return roadmap_obj
+        return None
+    
+    def get_completion_rate(self, roadmap_id):
+        progress = self.progress_collection.find({'roadmapId': roadmap_id})
+        total_tasks = 0
+        completed_tasks = 0
+        for task in progress:
+            total_tasks += 1
+            if task['completion'] == 1:
+                completed_tasks += 1
+        if total_tasks == 0:
+            return 0
+        return completed_tasks / total_tasks * 100
