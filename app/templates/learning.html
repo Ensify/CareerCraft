@@ -71,7 +71,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row" action="/profile" method="POST" id="profileForm">
+                <form class="row" action="{{ url_for('activity.update_progress')}}" method="POST" id="profileForm">
                     <label class="text-start" for="github_link">GitHub Link</label><br>
                     <input class="form-control mb-3" placeholder="Enter your github profile url" type="text"
                         id="github_link" name="github_link" required><br>
@@ -131,12 +131,14 @@
         });
 
         function updateProgressData(taskId) {
-            fetch('/update_progress', {
+            var url = `{{ url_for('activity.update_progress')}}`;
+            var project_id = `{{ project_id }}`;
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ task_id: taskId })
+                body: JSON.stringify({ task_id: taskId , project_id: project_id})
             })
                 .then(response => response.json())
                 .then(data => {

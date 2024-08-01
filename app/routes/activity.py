@@ -100,4 +100,8 @@ def project_leaderboard(project_id):
     leaderboard.sort(key=lambda x: [x["completionPercentage"], -x["enrollDate"]], reverse=True)
     return render_template("leaderboard.html", leaderboard_sorted=leaderboard, project_name=project_name)
 
-
+@activity.route("/updateProgress", methods=["POST"])
+@login_required
+def update_progress():
+    print(request.data)
+    return {"status": "success"}
