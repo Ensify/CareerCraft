@@ -21,11 +21,13 @@ def learning(project_id):
         return redirect(url_for('main.landing'))
     
     roadmap_object = mongo_handle.get_roadmap_object(enroll_object["_id"])
-    if roadmap_object:
-        roadmap_object = roadmap_object.get("intermediate goals")
-    print(roadmap_object)
+    progress_data = mongo_handle.get_progress(roadmap_object["_id"])
 
-    return render_template('learning.html', roadmap_object = roadmap_object, project_id = project_id, is_project= True)
+    roadmap = roadmap_object["roadmap"]
+    if roadmap:
+        roadmap = roadmap.get("intermediate goals")    
+
+    return render_template('learning.html', roadmap_object = roadmap, project_id = project_id, progress_data = progress_data)
 
 
 @activity.route("/quiz/<int:project_id>", methods=["GET"])
