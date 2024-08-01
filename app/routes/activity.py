@@ -39,7 +39,7 @@ def quiz(project_id):
     #TODO: Check if user is enrolled in project and not already taken quiz and exit route
 
     quiz_questions = mongo_handle.get_quiz_object(project_id)["skills"]
-    return render_template('quiz.html', data=quiz_questions, project_id = project_id)
+    return render_template('quiz.html', data=quiz_questions, project_id = project_id, is_project= True)
 
 
 @activity.route("/quiz/<int:project_id>", methods=["POST"])
@@ -67,7 +67,7 @@ def process_quiz(project_id):
 
         flash("Quiz submitted successfully!", "success")
                         
-    return {"redirect":url_for('activity.learning', project_id=project_id)}
+    return {"redirect":url_for('activity.learning', project_id=project_id, is_project= True)}
 
 
 
@@ -78,15 +78,22 @@ def project_leaderboard(project_id):
     # TODO: To get all the projects, filter tasks using enroll id(roadmap id) and add their completion rates to decide.
     enrollments = mongo_handle.get_project_enrollments(project_id)
     leaderboard = []
+    project_name = mongo_handle.get_project_object(project_id)["title"]
     for enroll in enrollments:
         roadmap_obj = mongo_handle.get_roadmap_from_enrollment(enroll["_id"])
-
-        completion_rate = mongo_handle.get_completion_rate(enroll["_id"])
+        user =  mongo_handle.get_user_object(enroll["userId"])
+        print("User: ", enroll["userId"])
+        if roadmap_obj:
+            completion_rate = mongo_handle.get_completion_rate(roadmap_obj["_id"])
+        else:
+            completion_rate = 0 
         leaderboard.append({
-            "user": mongo_handle.get_user_object(enroll["userId"]),
-            "completion_rate": completion_rate
+            "userName": user["username"],
+            "userRole": user.get("role"),
+            "enrollDate": enroll["dateEnrolled"],
+            "completionPercentage": completion_rate
         })
-
-    pass
+    leaderboard.sort(key=lambda x: [x["completionPercentage"], -x["enrollDate"]], reverse=True)
+    return render_template("leaderboard.html", leaderboard_sorted=leaderboard, project_name=project_name)
 
 

@@ -1,0 +1,38 @@
+{
+    "projectId": 1,
+    "ratings": {
+        "5" : 34,
+        "4" : 29,
+        "3" : 10,
+        "2" : 5,
+        "1" : 2
+    },
+    "Comments": {
+        "5": [
+            {
+                "user_id": 1,
+                "comment": "Great job! The code is well-structured and efficient."
+            },
+            {
+                "user_id": 2,
+                "comment": "The implementation is clear and well-documented."
+            },
+            {
+                "user_id": 3,
+                "comment": "The code could be optimized for better performance."
+            }
+        ],
+        "4": [
+            {
+                "user_id": 4,
+                "comment": "The code is well-commented and easy to understand."
+            }
+        ],
+        "1" : [
+            {
+                "user_id": 5,
+                "comment": "The code is not efficient or well-documented."
+            }
+        ]
+    }
+}

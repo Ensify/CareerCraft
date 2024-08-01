@@ -31,6 +31,11 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.landing') }}">Projects</a></li>
                         {% if current_user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.profile') }}">Profile</a></li>
+                        {% if is_project %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('activity.project_leaderboard', project_id=project_id) }}"> Project Leaderboard</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.overall_leaderboard') }}">Overall Leaderboard</a></li>
+                        {% endif %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.authenticate') }}">Sign In/Sign Up</a></li>

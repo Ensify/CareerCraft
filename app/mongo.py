@@ -18,12 +18,17 @@ class MongoHandle:
         self.progress_collection = self.db['progressData']
 
     def get_user_object(self, user_id):
-        user = User.query.get(int(user_id))
-        if user:
-            mongo_id = user.mongo_objectId
-            user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
-            return user_dict
-        return None
+        user_dict = None
+        if isinstance(user_id, int):
+            user = User.query.get(int(user_id))
+            if user:
+                mongo_id = user.mongo_objectId
+                user_dict = self.user_collection.find_one({'_id': ObjectId(mongo_id)})
+                return user_dict
+        else:
+            print(user_id, ObjectId(user_id))
+            user_dict = self.user_collection.find_one({'_id': ObjectId(user_id)})
+        return user_dict
 
     def add_user_object(self, user_data):
         result = self.user_collection.insert_one(user_data)
@@ -131,9 +136,10 @@ class MongoHandle:
         return None
     
     def get_user_projects(self, user_id):
-        result = self.enroll_collection.find({'userId': user_id})
-
+        result = self.enroll_collection.find({'userId': str(user_id)})
         return [res for res in result]
+    
+    
     def update_user_profile(self, user_id, linkedin, github, role, skills):
         user_obj = self.get_user_object(user_id)
         result = self.user_collection.update_one(filter={'_id': user_obj["_id"]}, update={'$set': {'linkedin': linkedin, 'github': github, 'role':role, 'skills': skills}})
@@ -143,6 +149,39 @@ class MongoHandle:
         enrollments = self.enroll_collection.find({'projectId': project_id})
         return [enroll for enroll in enrollments]
     
+<<<<<<< HEAD
+
+    def get_roadmap_from_enrollment(self, enroll_id):
+        roadmap_obj = self.roadmap_collection.find_one({'enrollId': enroll_id})
+        if roadmap_obj:
+            return roadmap_obj
+        return None
+    
+    def get_completion_rate(self, roadmap_id):
+        progress = self.progress_collection.find({'roadmapId': roadmap_id})
+        total_tasks = 0
+        completed_tasks = 0
+        for task in progress:
+            total_tasks += 1
+            if task['completion'] == 1:
+                completed_tasks += 1
+        if total_tasks == 0:
+            return 0
+        return completed_tasks / total_tasks * 100
+    
+
+    def get_all_users(self):
+        users = self.user_collection.find()
+        return [user for user in users]
+    
+    def get_user_progress(self, enroll_id):
+        progress = self.progress_collection.find({'enrollId': enroll_id})
+        return [progress for progress in progress]
+    
+    def get_updated_dates(self, roadmapId):
+        updated_dates = self.progress_collection.find({'roadmapId': roadmapId}, {'dateUpdated': 1}).sort('dateUpdated', -1)
+        return [date['dateUpdated'] for date in updated_dates]
+=======
     def get_progress(self, roadmapId):
         roadmapId = str(roadmapId)
         tasks = self.progress_collection.find({'roadmapId': roadmapId})
@@ -150,3 +189,4 @@ class MongoHandle:
         for task in tasks:
             progress_data[task['taskId']] = task['completion']
         return progress_data
+>>>>>>> 9af633a665beb1112b1e348972da240c3a75dc8d
