@@ -11,6 +11,9 @@
         <div class="d-flex justify-content-center flex-row title-flex align-items-center">
             <div>
                 <h1 class="w-75  mb-3">{{project.title}}</h1>
+                <p class=" desc-container">
+                    {{project.description[12:]}}
+                </p>
                 {% if not enrolled%}
                         <button  type="button" class="mt-4 btn btn-primary enroll-btn" data-bs-toggle="modal" data-bs-target="#enrollModal">
                             Start project 
@@ -41,7 +44,7 @@
                     <hr class="slim-line">
                 </div>
                 <div>
-                    <a class="sub-text-link" href="www.google.com">More about the Course</a>
+                    <a class="sub-text-link" href="#skills-section">More about the Course</a>
                 </div>
             </div>
         </div>
@@ -65,7 +68,7 @@
         <img src="{{url_for('static',filename='images/ai.png')}}" alt="" class="project-img">
     </div> -->
 </div>
-<div class="skills-container">
+<div id="skills-section" class="skills-container">
     <div class="rem">
         <div>
             <h3 class="mb-4">Skills To master</h3>
