@@ -63,8 +63,6 @@ def generate_roadmap(description, skillslevels):
     with open('roadmap.json','r') as f:
         roadmap = json.load(f)
     return roadmap
-    print(description)
-    print(skillslevels)
     try:
         model = RoadmapClaude()
         roadmap = model(description, skillslevels)

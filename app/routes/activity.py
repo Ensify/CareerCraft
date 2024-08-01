@@ -1,4 +1,5 @@
 import json
+import time
 from flask import Blueprint, render_template, url_for, flash, redirect, request
 from app import db, bcrypt
 from app.models import User
@@ -20,12 +21,14 @@ def learning(project_id):
         flash("User not enrolled in this course. Please report if you think this is a mistake.","error")
         return redirect(url_for('main.landing'))
     
+    roadmap, progress_data = None, None
     roadmap_object = mongo_handle.get_roadmap_object(enroll_object["_id"])
-    progress_data = mongo_handle.get_progress(roadmap_object["_id"])
+    if roadmap_object:
+        progress_data = mongo_handle.get_progress(roadmap_object["_id"])
 
-    roadmap = roadmap_object["roadmap"]
-    if roadmap:
-        roadmap = roadmap.get("intermediate goals")
+        roadmap = roadmap_object["roadmap"]
+        if roadmap:
+            roadmap = roadmap.get("intermediate goals")    
 
     print(roadmap_object)
 
@@ -59,6 +62,7 @@ def process_quiz(project_id):
             skillslevels.append((skill["skill"], skill["mark"]))
 
         roadmap = claude.generate_roadmap(description, skillslevels)
+        time.sleep(5)
 
         if roadmap:
             enroll_object = mongo_handle.is_user_enrolled(current_user.mongo_objectId, project_id)
