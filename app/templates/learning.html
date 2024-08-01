@@ -22,21 +22,21 @@
             <div class="road"></div>
             <div class="pad-content">
 
-                {% for goal in roadmap_object%}
+                {% for g in range(roadmap_object|length)%}
                     <div class="goal ms-2 me-2 mb-5">
                         <div class="d-flex align-items-center">
                             <img src="{{url_for('static',filename='assets/goals.png')}}" alt="" class="mile-img me-3">
-                            <h2>{{ goal.title }}</h2>
+                            <h2>{{ roadmap_object[g].title }}</h2>
                         </div>
-                        {% for milestone in goal.milestones %}
+                        {% for m in range(roadmap_object[g].milestones|length) %}
                             <div class="milestone mt-2">
-                                <h3>{{ milestone.title }}</h3>
+                                <h3>{{ roadmap_object[g].milestones[m].title }}</h3>
                                 <div class="task">
                                     <ul>
-                                        {% for task in milestone.tasks %}
+                                        {% for t in range(roadmap_object[g].milestones[m].tasks|length) %}
                                             <li>
-                                                <h4><strong>-></strong> {{ task.task }}</h4>
-                                                <p>{{ task.description }}</p>
+                                                <h4><strong>-></strong> {{ roadmap_object[g].milestones[m].tasks[t].task }} {{g+1}}-{{m+1}}-{{t+1}}</h4>
+                                                <p>{{ roadmap_object[g].milestones[m].tasks[t].description }}</p>
                                             </li>
                                         {% endfor %}
                                     </ul>
