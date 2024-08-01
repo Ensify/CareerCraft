@@ -136,9 +136,10 @@ class MongoHandle:
         return None
     
     def get_user_projects(self, user_id):
-        result = self.enroll_collection.find({'userId': user_id})
-
+        result = self.enroll_collection.find({'userId': str(user_id)})
         return [res for res in result]
+    
+    
     def update_user_profile(self, user_id, linkedin, github, role, skills):
         user_obj = self.get_user_object(user_id)
         result = self.user_collection.update_one(filter={'_id': user_obj["_id"]}, update={'$set': {'linkedin': linkedin, 'github': github, 'role':role, 'skills': skills}})
@@ -166,3 +167,16 @@ class MongoHandle:
         if total_tasks == 0:
             return 0
         return completed_tasks / total_tasks * 100
+    
+
+    def get_all_users(self):
+        users = self.user_collection.find()
+        return [user for user in users]
+    
+    def get_user_progress(self, enroll_id):
+        progress = self.progress_collection.find({'enrollId': enroll_id})
+        return [progress for progress in progress]
+    
+    def get_updated_dates(self, roadmapId):
+        updated_dates = self.progress_collection.find({'roadmapId': roadmapId}, {'dateUpdated': 1}).sort('dateUpdated', -1)
+        return [date['dateUpdated'] for date in updated_dates]

@@ -79,7 +79,10 @@ def project_leaderboard(project_id):
         roadmap_obj = mongo_handle.get_roadmap_from_enrollment(enroll["_id"])
         user =  mongo_handle.get_user_object(enroll["userId"])
         print("User: ", enroll["userId"])
-        completion_rate = mongo_handle.get_completion_rate(roadmap_obj["_id"])
+        if roadmap_obj:
+            completion_rate = mongo_handle.get_completion_rate(roadmap_obj["_id"])
+        else:
+            completion_rate = 0 
         leaderboard.append({
             "userName": user["username"],
             "userRole": user.get("role"),
