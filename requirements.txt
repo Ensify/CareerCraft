@@ -8,3 +8,4 @@ SQLAlchemy
 flask-toastr
 pymongo
 python-dotenv
+scikit-learn
